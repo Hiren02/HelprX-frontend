@@ -4,9 +4,9 @@ export interface User {
     phone: string;
     email?: string;
     role: 'user' | 'worker' | 'admin';
-    isActive: boolean;
-    createdAt: string;
-    updatedAt: string;
+    isActive?: boolean;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface UserProfile extends User {

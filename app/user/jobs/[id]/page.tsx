@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -20,9 +20,10 @@ import {
 } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils/currency';
 import { formatDateTime } from '@/lib/utils/date';
-import { getStatusColor } from '@/lib/utils/common';
 
 // Mock job data
+// Mock job data
+
 const mockJob = {
   id: '1',
   title: 'Fix leaking kitchen tap',
@@ -49,8 +50,7 @@ const mockJob = {
   },
 };
 
-export default function JobTrackingPage() {
-  const params = useParams();
+export default function JobDetailsPage() {
   const router = useRouter();
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);

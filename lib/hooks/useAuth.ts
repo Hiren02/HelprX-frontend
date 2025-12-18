@@ -4,6 +4,8 @@ import { useAppDispatch } from '@/store/hooks';
 import { setUser, clearUser } from '@/store/authSlice';
 import { setAccessToken, setRefreshToken, clearAuthData } from '@/lib/utils/auth';
 import toast from 'react-hot-toast';
+import { User } from '@/types/user';
+import { AxiosError } from 'axios';
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();
@@ -17,11 +19,11 @@ export const useAuth = () => {
                 const { user, accessToken, refreshToken } = response.data;
                 setAccessToken(accessToken);
                 setRefreshToken(refreshToken);
-                dispatch(setUser(user as any));
+                dispatch(setUser(user as User));
                 toast.success('Login successful!');
             }
         },
-        onError: (error: any) => {
+        onError: (error: AxiosError<{ message: string }>) => {
             toast.error(error.response?.data?.message || 'Login failed');
         },
     });
@@ -34,11 +36,11 @@ export const useAuth = () => {
                 const { user, accessToken, refreshToken } = response.data;
                 setAccessToken(accessToken);
                 setRefreshToken(refreshToken);
-                dispatch(setUser(user as any));
+                dispatch(setUser(user as User));
                 toast.success('Registration successful!');
             }
         },
-        onError: (error: any) => {
+        onError: (error: AxiosError<{ message: string }>) => {
             toast.error(error.response?.data?.message || 'Registration failed');
         },
     });

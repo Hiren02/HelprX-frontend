@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -47,7 +47,6 @@ const mockJob = {
 };
 
 export default function WorkerJobExecutionPage() {
-  const params = useParams();
   const router = useRouter();
   const [status, setStatus] = useState(mockJob.status);
   const [showCompleteModal, setShowCompleteModal] = useState(false);

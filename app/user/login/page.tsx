@@ -10,6 +10,7 @@ import { setAccessToken, setRefreshToken, setStoredUser } from '@/lib/utils/auth
 import { useAppDispatch } from '@/store/hooks';
 import { setUser } from '@/store/authSlice';
 import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 
 export default function UserLoginPage() {
   const router = useRouter();
@@ -65,19 +66,20 @@ export default function UserLoginPage() {
         // Store tokens and user
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
-        setStoredUser(user as any); // Backend returns partial user on login
+        setStoredUser(user); // Backend returns partial user on login
         
         // Update Redux state
-        dispatch(setUser(user as any));
+        dispatch(setUser(user));
         
         toast.success('Login successful!');
         
         // Redirect to user dashboard
         router.push('/user');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Login error:', error);
-      toast.error(error.response?.data?.message || 'Login failed. Please try again.');
+      const axiosError = error as AxiosError<{ message: string }>;
+      toast.error(axiosError.response?.data?.message || 'Login failed. Please try again.');
     } finally {
       setIsLoading(false);
     }

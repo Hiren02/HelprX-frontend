@@ -7,16 +7,21 @@ import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { clearUser } from '@/store/authSlice';
-import { User, MapPin, Settings, LogOut, Plus } from 'lucide-react';
+import { User, MapPin, Settings, LogOut, Plus, Trash2, Home, Briefcase } from 'lucide-react';
 import { RootState } from '@/store';
 import toast from 'react-hot-toast';
+import { useAddresses } from '@/lib/hooks/useAddresses';
+import { AddAddressModal } from '@/components/profile/AddAddressModal';
 
 export default function ProfilePage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state: RootState) => state.auth);
+  const { addresses, isLoading: loadingAddresses, deleteAddress } = useAddresses();
+  
   const [activeTab, setActiveTab] = useState<'profile' | 'addresses' | 'settings'>('profile');
   const [isEditing, setIsEditing] = useState(false);
+  const [isAddAddressOpen, setIsAddAddressOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -33,6 +38,20 @@ export default function ProfilePage() {
     // TODO: Implement profile update API call
     toast.success('Profile updated successfully');
     setIsEditing(false);
+  };
+
+  const handleDeleteAddress = (id: string) => {
+    if (confirm('Are you sure you want to delete this address?')) {
+      deleteAddress(id);
+    }
+  };
+
+  const getLabelIcon = (label: string) => {
+    switch (label.toLowerCase()) {
+      case 'home': return <Home className="w-4 h-4" />;
+      case 'work': return <Briefcase className="w-4 h-4" />;
+      default: return <MapPin className="w-4 h-4" />;
+    }
   };
 
   return (
@@ -154,19 +173,60 @@ export default function ProfilePage() {
             <Card>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold">Saved Addresses</h2>
-                <Button>
+                <Button onClick={() => setIsAddAddressOpen(true)}>
                   <Plus className="w-4 h-4 mr-2" />
                   Add Address
                 </Button>
               </div>
               
-              <div className="text-center py-12">
-                <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600 mb-4">No saved addresses yet</p>
-                <Button variant="outline">
-                  Add Your First Address
-                </Button>
-              </div>
+              {loadingAddresses ? (
+                <div className="text-center py-12">
+                  <p>Loading addresses...</p>
+                </div>
+              ) : addresses.length === 0 ? (
+                <div className="text-center py-12">
+                  <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-600 mb-4">No saved addresses yet</p>
+                  <Button variant="outline" onClick={() => setIsAddAddressOpen(true)}>
+                    Add Your First Address
+                  </Button>
+                </div>
+              ) : (
+                <div className="grid gap-4">
+                    {addresses.map((address) => (
+                      <div key={address.id} className="border rounded-lg p-4 flex justify-between items-start hover:bg-gray-50 transition-colors">
+                        <div className="flex gap-3">
+                           <div className="mt-1 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                             {getLabelIcon(address.label)}
+                           </div>
+                           <div>
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-semibold text-gray-900">{address.label}</h4>
+                                {address.isDefault && (
+                                  <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Default</span>
+                                )}
+                              </div>
+                              <p className="text-gray-600 mt-1">{address.addressLine}</p>
+                              <p className="text-gray-500 text-sm">
+                                {address.city}, {address.state} - {address.pincode}
+                              </p>
+                           </div>
+                        </div>
+                        <div className="flex gap-2">
+                           {/* Add Edit/Set Default buttons later */}
+                           <Button 
+                             variant="ghost" 
+                             size="sm" 
+                             className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                             onClick={() => handleDeleteAddress(address.id)}
+                           >
+                              <Trash2 className="w-4 h-4" />
+                           </Button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              )}
             </Card>
           </div>
         )}
@@ -234,6 +294,11 @@ export default function ProfilePage() {
           </div>
         )}
       </div>
+
+      <AddAddressModal 
+        isOpen={isAddAddressOpen} 
+        onClose={() => setIsAddAddressOpen(false)} 
+      />
     </div>
   );
 }

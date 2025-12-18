@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { jobService, GetJobsParams } from '@/lib/api/services/jobs';
 import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 
 export const useJobs = (params?: GetJobsParams) => {
     const queryClient = useQueryClient();
@@ -18,7 +19,7 @@ export const useJobs = (params?: GetJobsParams) => {
             queryClient.invalidateQueries({ queryKey: ['jobs'] });
             toast.success('Job created successfully!');
         },
-        onError: (error: any) => {
+        onError: (error: AxiosError<{ message: string }>) => {
             toast.error(error.response?.data?.message || 'Failed to create job');
         },
     });
@@ -31,7 +32,7 @@ export const useJobs = (params?: GetJobsParams) => {
             queryClient.invalidateQueries({ queryKey: ['jobs'] });
             toast.success('Job cancelled');
         },
-        onError: (error: any) => {
+        onError: (error: AxiosError<{ message: string }>) => {
             toast.error(error.response?.data?.message || 'Failed to cancel job');
         },
     });
@@ -43,7 +44,7 @@ export const useJobs = (params?: GetJobsParams) => {
             queryClient.invalidateQueries({ queryKey: ['jobs'] });
             toast.success('Job accepted!');
         },
-        onError: (error: any) => {
+        onError: (error: AxiosError<{ message: string }>) => {
             toast.error(error.response?.data?.message || 'Failed to accept job');
         },
     });
@@ -82,6 +83,7 @@ export const useJobs = (params?: GetJobsParams) => {
         isLoading,
         error,
         createJob: createJobMutation.mutate,
+        createJobAsync: createJobMutation.mutateAsync,
         cancelJob: cancelJobMutation.mutate,
         acceptJob: acceptJobMutation.mutate,
         declineJob: declineJobMutation.mutate,

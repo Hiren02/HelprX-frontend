@@ -17,6 +17,8 @@ export interface GetJobsParams {
     page?: number;
     limit?: number;
     status?: JobStatus;
+    startDate?: string;
+    endDate?: string;
 }
 
 export interface CancelJobData {

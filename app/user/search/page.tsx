@@ -6,8 +6,11 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
 import { ServiceType } from '@/types/worker';
-import { Search, MapPin, Clock, Upload } from 'lucide-react';
+import { MapPin, Upload, Plus, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useAddresses } from '@/lib/hooks/useAddresses';
+import { useJobs } from '@/lib/hooks/useJobs';
+import { AddAddressModal } from '@/components/profile/AddAddressModal';
 
 const SERVICE_TYPES: { value: ServiceType; label: string; icon: string }[] = [
   { value: 'plumbing', label: 'Plumbing', icon: '🔧' },
@@ -26,8 +29,11 @@ const SERVICE_TYPES: { value: ServiceType; label: string; icon: string }[] = [
 
 export default function SearchPage() {
   const router = useRouter();
+  const { addresses, isLoading: loadingAddresses } = useAddresses();
+  const { createJobAsync, isCreating } = useJobs();
   const [step, setStep] = useState<'service' | 'details' | 'location'>('service');
   const [selectedService, setSelectedService] = useState<ServiceType | null>(null);
+  const [isAddAddressOpen, setIsAddAddressOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -42,9 +48,32 @@ export default function SearchPage() {
   };
 
   const handleSubmit = async () => {
-    // TODO: Implement job creation
-    toast.success('Service request created! Finding workers...');
-    router.push('/user');
+    if (!formData.addressId) {
+      toast.error('Please select an address');
+      return;
+    }
+    
+    if (!selectedService) return;
+
+    try {
+      const response = await createJobAsync({
+        serviceType: selectedService,
+        title: formData.title,
+        description: formData.description,
+        addressId: formData.addressId,
+        preferredTimeStart: formData.preferredDate && formData.preferredTime 
+          ? new Date(`${formData.preferredDate}T${formData.preferredTime}`).toISOString() 
+          : undefined,
+      });
+
+      if (response.data) {
+        toast.success('Service request created! Finding workers...');
+        router.push(`/user/booking/${response.data.id}`);
+      }
+    } catch (error) {
+      console.error(error);
+      // Toast handled by mutation
+    }
   };
 
   return (
@@ -177,20 +206,49 @@ export default function SearchPage() {
             <h2 className="text-xl font-semibold mb-4">Where do you need the service?</h2>
             <Card>
               <div className="space-y-4">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <div className="flex items-start space-x-3">
-                    <MapPin className="w-5 h-5 text-blue-600 mt-0.5" />
-                    <div>
-                      <p className="font-medium text-gray-900">No saved addresses</p>
-                      <p className="text-sm text-gray-600 mt-1">
-                        Add an address to continue
-                      </p>
+                {loadingAddresses ? (
+                  <div className="p-4 text-center">Loading addresses...</div>
+                ) : addresses.length === 0 ? (
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="flex items-start space-x-3">
+                      <MapPin className="w-5 h-5 text-blue-600 mt-0.5" />
+                      <div>
+                        <p className="font-medium text-gray-900">No saved addresses</p>
+                        <p className="text-sm text-gray-600 mt-1">
+                          Add an address to continue
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="grid gap-3">
+                    {addresses.map((address) => (
+                      <div 
+                        key={address.id}
+                        className={`border rounded-lg p-4 cursor-pointer transition-colors relative ${formData.addressId === address.id ? 'border-primary-500 bg-primary-50' : 'hover:bg-gray-50'}`}
+                        onClick={() => setFormData({ ...formData, addressId: address.id })}
+                      >
+                        <div className="flex justify-between items-start">
+                           <div>
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-medium text-gray-900">{address.label}</h4>
+                                {address.isDefault && <span className="text-xs bg-gray-200 px-2 py-0.5 rounded">Default</span>}
+                              </div>
+                              <p className="text-sm text-gray-600 mt-1">{address.addressLine}, {address.city}</p>
+                           </div>
+                           {formData.addressId === address.id && (
+                             <div className="w-6 h-6 bg-primary-600 rounded-full flex items-center justify-center text-white">
+                               <Check size={14} />
+                             </div>
+                           )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
-                <Button variant="outline" className="w-full">
-                  <MapPin className="w-4 h-4 mr-2" />
+                <Button variant="outline" className="w-full" onClick={() => setIsAddAddressOpen(true)}>
+                  <Plus className="w-4 h-4 mr-2" />
                   Add New Address
                 </Button>
 
@@ -201,8 +259,8 @@ export default function SearchPage() {
                     <p className="text-sm text-gray-600 mt-1">Based on similar requests</p>
                   </div>
 
-                  <Button onClick={handleSubmit} className="w-full" size="lg">
-                    Find Workers
+                  <Button onClick={handleSubmit} className="w-full" size="lg" disabled={!formData.addressId || isCreating}>
+                    {isCreating ? 'Creating Request...' : 'Find Workers'}
                   </Button>
                 </div>
               </div>
@@ -210,6 +268,11 @@ export default function SearchPage() {
           </div>
         )}
       </div>
+
+      <AddAddressModal 
+        isOpen={isAddAddressOpen} 
+        onClose={() => setIsAddAddressOpen(false)} 
+      />
     </div>
   );
 }

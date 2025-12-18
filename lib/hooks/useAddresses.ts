@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { addressService } from '@/lib/api/services/addresses';
 import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
+import { CreateAddressData } from '@/lib/api/services/addresses';
 
 export const useAddresses = () => {
     const queryClient = useQueryClient();
@@ -16,22 +18,22 @@ export const useAddresses = () => {
         mutationFn: addressService.createAddress,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['addresses'] });
-            toast.success('Address added successfully!');
+            toast.success('Address added successfully');
         },
-        onError: (error: any) => {
+        onError: (error: AxiosError<{ message: string }>) => {
             toast.error(error.response?.data?.message || 'Failed to add address');
         },
     });
 
     // Update address mutation
     const updateAddressMutation = useMutation({
-        mutationFn: ({ id, data }: { id: string; data: any }) =>
+        mutationFn: ({ id, data }: { id: string; data: Partial<CreateAddressData> }) =>
             addressService.updateAddress(id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['addresses'] });
             toast.success('Address updated!');
         },
-        onError: (error: any) => {
+        onError: (error: AxiosError<{ message: string }>) => {
             toast.error(error.response?.data?.message || 'Failed to update address');
         },
     });
@@ -43,7 +45,7 @@ export const useAddresses = () => {
             queryClient.invalidateQueries({ queryKey: ['addresses'] });
             toast.success('Address deleted');
         },
-        onError: (error: any) => {
+        onError: (error: AxiosError<{ message: string }>) => {
             toast.error(error.response?.data?.message || 'Failed to delete address');
         },
     });
@@ -61,6 +63,7 @@ export const useAddresses = () => {
         addresses: addresses?.data || [],
         isLoading,
         createAddress: createAddressMutation.mutate,
+        createAddressAsync: createAddressMutation.mutateAsync,
         updateAddress: updateAddressMutation.mutate,
         deleteAddress: deleteAddressMutation.mutate,
         setDefaultAddress: setDefaultMutation.mutate,

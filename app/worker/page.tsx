@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { Badge } from '@/components/ui/Badge';
+import { Select } from '@/components/forms/Select';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { clearUser } from '@/store/authSlice';
 import { useRouter } from 'next/navigation';
@@ -79,6 +79,88 @@ export default function WorkerDashboardPage() {
               </span>
             </button>
           </div>
+        </Card>
+
+        {/* Analytics Section */}
+        <Card className="mb-8">
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-900 flex items-center">
+                    <TrendingUp className="w-5 h-5 mr-2 text-primary-600" />
+                    Analytics & Performance
+                </h2>
+                <Select
+                    value="week"
+                    onChange={() => {}}
+                    options={[
+                        { value: 'week', label: 'This Week' },
+                        { value: 'month', label: 'This Month' },
+                        { value: 'year', label: 'This Year' },
+                    ]}
+                    className="w-32"
+                />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+                {/* Mock Earnings Chart */}
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                    <h3 className="text-sm font-semibold text-gray-700 mb-4">Earnings Overview</h3>
+                    <div className="h-64 flex items-end justify-between px-2 gap-2">
+                        {[450, 800, 300, 1200, 600, 950, 150].map((amount, i) => {
+                            const height = Math.min((amount / 1200) * 100, 100);
+                            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                            return (
+                                <div key={i} className="flex flex-col items-center flex-1 group relative">
+                                    <div className="absolute bottom-full mb-1 opacity-0 group-hover:opacity-100 bg-gray-900 text-white text-xs py-1 px-2 rounded transition-opacity">
+                                        ₹{amount}
+                                    </div>
+                                    <div 
+                                        className="w-full bg-primary-200 hover:bg-primary-500 rounded-t-sm transition-colors duration-300"
+                                        style={{ height: `${height}%` }}
+                                    ></div>
+                                    <span className="text-xs text-gray-500 mt-2">{days[i]}</span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Key Performance Indicators */}
+                <div className="space-y-4">
+                    <h3 className="text-sm font-semibold text-gray-700">Performance Metrics</h3>
+                    
+                    <div className="bg-white p-3 rounded border flex justify-between items-center">
+                        <span className="text-gray-600 text-sm">Job Completion Rate</span>
+                        <div className="text-right">
+                             <span className="font-bold text-green-600">98%</span>
+                             <p className="text-xs text-gray-400">Top 5% of workers</p>
+                        </div>
+                    </div>
+                    
+                    <div className="bg-white p-3 rounded border flex justify-between items-center">
+                         <span className="text-gray-600 text-sm">On-Time Arrival</span>
+                         <div className="text-right">
+                             <span className="font-bold text-blue-600">100%</span>
+                             <p className="text-xs text-gray-400">Streak: 15 jobs</p>
+                        </div>
+                    </div>
+
+                    <div className="bg-white p-3 rounded border flex justify-between items-center">
+                         <span className="text-gray-600 text-sm">Response Time</span>
+                         <div className="text-right">
+                             <span className="font-bold text-gray-900">15m</span>
+                             <p className="text-xs text-gray-400">Avg. 12m in your area</p>
+                        </div>
+                    </div>
+
+                    <div className="bg-white p-3 rounded border flex justify-between items-center">
+                         <span className="text-gray-600 text-sm">Repeat Customers</span>
+                         <div className="text-right">
+                             <span className="font-bold text-purple-600">12</span>
+                             <p className="text-xs text-gray-400">Loyal client base</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </Card>
 
         {/* Stats Grid */}

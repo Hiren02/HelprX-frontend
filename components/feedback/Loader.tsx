@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Loader: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size = 'md' }) => {
+export const Loader: React.FC<{ size?: 'sm' | 'md' | 'lg'; className?: string }> = ({ size = 'md', className }) => {
   const sizes = {
     sm: 'h-4 w-4',
     md: 'h-8 w-8',
@@ -8,7 +8,7 @@ export const Loader: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size = 'md' })
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className={`flex items-center justify-center ${className || ''}`}>
       <div
         className={`${sizes[size]} animate-spin rounded-full border-4 border-gray-200 border-t-primary-600`}
       />

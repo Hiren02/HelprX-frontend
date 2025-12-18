@@ -10,6 +10,7 @@ import { setAccessToken, setRefreshToken } from '@/lib/utils/auth';
 import { useAppDispatch } from '@/store/hooks';
 import { setUser } from '@/store/authSlice';
 import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 
 export default function UserRegisterPage() {
   const router = useRouter();
@@ -86,14 +87,15 @@ export default function UserRegisterPage() {
         
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
-        dispatch(setUser(user as any));
+        dispatch(setUser(user));
         
         toast.success('Registration successful!');
         router.push('/user');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Registration error:', error);
-      toast.error(error.response?.data?.message || 'Registration failed. Please try again.');
+      const axiosError = error as AxiosError<{ message: string }>;
+      toast.error(axiosError.response?.data?.message || 'Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
