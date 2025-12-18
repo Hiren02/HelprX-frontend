@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white text-gray-900;
+    transition: all 0.5s ease-in-out;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 500ms;
+    transition-timing-function: ease-in-out;
+  }
+}
+
+/* Explicit fallback for dark mode body if @apply variants fail */
+html.dark body,
+.dark body {
+  @apply bg-gray-950 text-gray-100;
+  background-color: #030712 !important;
+}
+
+/* Ensure HomeClient gradient reacts to dark class even without Tailwind utilities */
+html.dark .bg-gradient-to-b,
+.dark .bg-gradient-to-b {
+  background-image: linear-gradient(to bottom, #030712, #111827) !important;
+}

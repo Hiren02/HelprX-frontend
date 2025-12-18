@@ -4,6 +4,7 @@ import './globals.css';
 import { ReduxProvider } from '@/components/providers/ReduxProvider';
 import { ReactQueryProvider } from '@/components/providers/ReactQueryProvider';
 import { ToastProvider } from '@/components/providers/ToastProvider';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -18,12 +19,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
         <ReduxProvider>
           <ReactQueryProvider>
-            {children}
-            <ToastProvider />
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+            >
+              {children}
+              <ToastProvider />
+            </ThemeProvider>
           </ReactQueryProvider>
         </ReduxProvider>
       </body>
