@@ -5,8 +5,8 @@ import Image from 'next/image';
 import { ArrowRight, Users, Zap, Shield, CheckCircle, Star, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
-import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
 
 // Animation Variants
 const fadeInUp = {

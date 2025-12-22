@@ -5,6 +5,7 @@ import { Address } from '@/types/user';
 export interface CreateAddressData {
     label: string;
     addressLine: string;
+    landmark?: string;
     city: string;
     state: string;
     pincode: string;
@@ -62,6 +63,22 @@ export const addressService = {
         const response = await apiClient.get('/addresses/nearby', {
             params: { latitude, longitude, radius },
         });
+        return response.data;
+    },
+
+    // Worker specific methods
+    getWorkerAddresses: async (params?: { page?: number; limit?: number }): Promise<PaginatedResponse<Address>> => {
+        const response = await apiClient.get('/addresses/worker/list', { params });
+        return response.data;
+    },
+
+    createWorkerAddress: async (data: CreateAddressData): Promise<ApiResponse<Address>> => {
+        const response = await apiClient.post('/addresses/worker', data);
+        return response.data;
+    },
+
+    updateWorkerAddress: async (id: string, data: UpdateAddressData): Promise<ApiResponse<Address>> => {
+        const response = await apiClient.put(`/addresses/worker/${id}`, data);
         return response.data;
     },
 };

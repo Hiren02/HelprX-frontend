@@ -33,6 +33,7 @@ export interface WalletTransaction {
     type: 'credit' | 'debit' | 'payout';
     amount: number;
     description: string;
+    status: 'pending' | 'completed' | 'failed' | 'processing' | 'refunded' | 'captured' | 'authorized';
     jobId?: string;
     createdAt: string;
 }

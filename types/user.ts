@@ -16,9 +16,9 @@ export interface UserProfile extends User {
 export interface Address {
     id: string;
     userId?: string;
-    workerId?: string;
     label: string;
     addressLine: string;
+    landmark?: string;
     city: string;
     state: string;
     pincode: string;

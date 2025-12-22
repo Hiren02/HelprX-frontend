@@ -3,8 +3,10 @@ import { useAddresses } from '@/lib/hooks/useAddresses';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
-import { MapPin } from 'lucide-react';
+import { MapPin, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { AddressAutocomplete } from '@/components/location/AddressAutocomplete';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface AddAddressModalProps {
   isOpen: boolean;
@@ -17,12 +19,28 @@ export function AddAddressModal({ isOpen, onClose }: AddAddressModalProps) {
   const [formData, setFormData] = useState({
     label: 'Home',
     addressLine: '',
+    landmark: '',
     city: '',
     state: '',
     pincode: '',
-    latitude: 19.07600000,
-    longitude: 72.87770000,
+    latitude: 0,
+    longitude: 0,
   });
+
+  const isAddressSelected = formData.addressLine !== '';
+
+  const handleAddressSelect = (data: any) => {
+    setFormData(prev => ({
+      ...prev,
+      addressLine: data.addressLine,
+      landmark: data.landmark,
+      city: data.city,
+      state: data.state,
+      pincode: data.pincode,
+      latitude: data.latitude,
+      longitude: data.longitude,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,11 +58,12 @@ export function AddAddressModal({ isOpen, onClose }: AddAddressModalProps) {
       setFormData({
         label: 'Home',
         addressLine: '',
+        landmark: '',
         city: '',
         state: '',
         pincode: '',
-        latitude: 19.07600000,
-        longitude: 72.87770000,
+        latitude: 0,
+        longitude: 0,
       });
     } catch (error) {
       console.error(error);
@@ -56,76 +75,95 @@ export function AddAddressModal({ isOpen, onClose }: AddAddressModalProps) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Add New Address">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Label</label>
-          <div className="flex gap-2">
-            {['Home', 'Work', 'Other'].map((label) => (
-              <button
-                key={label}
-                type="button"
-                className={`px-3 py-1.5 rounded-full text-sm font-medium border ${
-                  formData.label === label
-                    ? 'bg-primary-50 border-primary-600 text-primary-700'
-                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
-                onClick={() => setFormData({ ...formData, label })}
+          <label className="text-sm font-medium mb-1.5 block">Search Service Location</label>
+          <AddressAutocomplete onSelect={handleAddressSelect} />
+          <p className="text-[10px] text-gray-400 mt-1 italic">Type your address or use current location icon</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <AnimatePresence>
+            {isAddressSelected && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="pt-4 border-t space-y-4 overflow-hidden"
               >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
+                <div>
+                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 block">Verify Details</label>
+                  <div className="flex gap-2 mb-4">
+                    {['Home', 'Work', 'Other'].map((label) => (
+                      <button
+                        key={label}
+                        type="button"
+                        className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                          formData.label === label
+                            ? 'bg-primary-50 border-primary-600 text-primary-700 shadow-sm'
+                            : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                        }`}
+                        onClick={() => setFormData({ ...formData, label })}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-        <Input
-          label="Street Address"
-          placeholder="123 Main St, Apt 4B"
-          value={formData.addressLine}
-          onChange={(e) => setFormData({ ...formData, addressLine: e.target.value })}
-          required
-        />
+                <Input
+                  label="Full Address"
+                  placeholder="The full search result will appear here"
+                  value={formData.addressLine}
+                  onChange={(e) => setFormData({ ...formData, addressLine: e.target.value })}
+                  required
+                />
 
-        <div className="grid grid-cols-2 gap-4">
-          <Input
-            label="City"
-            placeholder="New York"
-            value={formData.city}
-            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-            required
-          />
-          <Input
-            label="State"
-            placeholder="NY"
-            value={formData.state}
-            onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-            required
-          />
-        </div>
+                <Input
+                  label="Landmark (Building, Area, etc.)"
+                  placeholder="e.g. Near Venus Atlantis"
+                  value={formData.landmark}
+                  onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
+                />
 
-        <Input
-          label="Pincode / Zip Code"
-          placeholder="10001"
-          value={formData.pincode}
-          onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-          required
-        />
-        
-        <div className="bg-blue-50 p-3 rounded-md flex items-start gap-2 text-sm text-blue-700">
-          <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-          <p>
-            Map selection is currently unavailable. Coordinates will be set to default. You can update specific location details later.
-          </p>
-        </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    label="City"
+                    placeholder="New York"
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    required
+                  />
+                  <Input
+                    label="State"
+                    placeholder="NY"
+                    value={formData.state}
+                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                    required
+                  />
+                </div>
 
-        <div className="flex items-center justify-end gap-3 pt-4 border-t mt-4">
-          <Button variant="outline" type="button" onClick={onClose} disabled={loading}>
-            Cancel
-          </Button>
-          <Button type="submit" disabled={loading}>
-            {loading ? 'Saving...' : 'Save Address'}
-          </Button>
-        </div>
-      </form>
+                <Input
+                  label="Pincode / Zip Code"
+                  placeholder="10001"
+                  value={formData.pincode}
+                  onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
+                  required
+                />
+
+                <div className="flex items-center justify-end gap-3 pt-6 border-t mt-6">
+                  <Button variant="outline" type="button" onClick={onClose} disabled={loading}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" disabled={loading} className="min-w-[120px]">
+                    {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : 'Save Address'}
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </form>
+      </div>
     </Modal>
   );
 }

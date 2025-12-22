@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAppSelector } from '@/store/hooks';
 import { RootState } from '@/store';
+import NextTopLoader from 'nextjs-toploader';
+import { Header } from '@/components/layout/Header';
 
 export default function UserLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -25,10 +27,28 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
     }
   }, [isAuthenticated, user, router, isPublicPath]);
 
-  // Only show loader for protected routes
-  //   if (!isAuthenticated && !isPublicPath) {
-  //     return <PageLoader />;
-  //   }
-
-  return <>{children}</>;
+  return (
+    <>
+      <NextTopLoader 
+        color="#2563eb"
+        initialPosition={0.08}
+        crawlSpeed={200}
+        height={3}
+        crawl={true}
+        showSpinner={false}
+        easing="ease"
+        speed={200}
+        shadow="0 0 10px #2563eb,0 0 5px #2563eb"
+      />
+      {/* Show header on user pages mostly, maybe conditionally hide on login/register if needed, 
+          but usually layout wraps content. For now assuming we want it everywhere in /user.
+          Except maybe login/register which might have their own layout or be part of this.
+          Wait, /user/login is a public path but still under /user layout? 
+          Let's check if we should show header on login. Usually no.
+      */}
+      {!pathname.includes('/login') && !pathname.includes('/register') && <Header />}
+      
+      {children}
+    </>
+  );
 }

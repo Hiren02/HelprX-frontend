@@ -21,6 +21,7 @@ export interface Worker {
     totalRatings: number;
     completedJobs: number;
     skills: WorkerSkill[];
+    profileImage?: string;
     createdAt: string;
     updatedAt: string;
 }

@@ -1,170 +1,213 @@
 'use client';
 
+import { useState } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { Badge } from '@/components/ui/Badge';
-import { useRouter } from 'next/navigation';
-import { Wallet, TrendingUp, TrendingDown, Download, ArrowRight } from 'lucide-react';
+import { Modal } from '@/components/ui/Modal';
+import { Input } from '@/components/ui/Input';
+import { Wallet, ArrowDownLeft, ArrowUpRight, Download, Loader2, AlertCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useWalletBalance, useWalletTransactions, useRequestPayout } from '@/lib/hooks/useWorker';
 import { formatCurrency } from '@/lib/utils/currency';
-import { formatDate } from '@/lib/utils/date';
-
-// Mock data
-const mockTransactions = [
-  {
-    id: '1',
-    type: 'credit' as const,
-    amount: 500,
-    description: 'Job #1234 - Plumbing service',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-  },
-  {
-    id: '2',
-    type: 'payout' as const,
-    amount: 2000,
-    description: 'Payout to bank account',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
-  },
-];
+import { formatDateTime } from '@/lib/utils/date';
+import toast from 'react-hot-toast';
 
 export default function WorkerWalletPage() {
-  const router = useRouter();
+  const [showPayoutModal, setShowPayoutModal] = useState(false);
+  const [payoutAmount, setPayoutAmount] = useState('');
+  
+  const { data: balance, isLoading: isLoadingBalance } = useWalletBalance();
+  const { data: transactions, isLoading: isLoadingTransactions } = useWalletTransactions({ limit: 20 });
+  const requestPayout = useRequestPayout();
+
+  const handleRequestPayout = () => {
+      const amount = Number(payoutAmount);
+      if (!amount || amount < 100) {
+          toast.error("Minimum payout is ₹100");
+          return;
+      }
+      if (amount > (balance?.data?.balance || 0)) {
+          toast.error("Insufficient balance");
+          return;
+      }
+      
+      requestPayout.mutate(amount, {
+          onSuccess: () => {
+              setShowPayoutModal(false);
+              setPayoutAmount('');
+          }
+      });
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
+
+  if (isLoadingBalance || isLoadingTransactions) {
+      return (
+          <div className="flex justify-center items-center min-h-screen">
+              <Loader2 className="w-8 h-8 animate-spin text-secondary-600" />
+          </div>
+      );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-gray-50/50">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="container mx-auto px-4 py-8 max-w-4xl"
+      >
+        <motion.div variants={itemVariants} className="mb-8">
             <h1 className="text-2xl font-bold text-gray-900">Wallet</h1>
-            <Button variant="ghost" onClick={() => router.push('/worker')}>
-              Back to Dashboard
-            </Button>
-          </div>
-        </div>
-      </header>
+        </motion.div>
 
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Balance Card */}
-        <Card className="mb-6 bg-gradient-to-br from-secondary-600 to-secondary-700 text-white">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="text-secondary-100 mb-1">Available Balance</p>
-              <h2 className="text-4xl font-bold">{formatCurrency(0)}</h2>
-            </div>
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
-              <Wallet className="w-8 h-8" />
-            </div>
-          </div>
-          <div className="flex items-center justify-between pt-4 border-t border-secondary-500">
-            <div>
-              <p className="text-secondary-100 text-sm">Total Earnings</p>
-              <p className="text-xl font-semibold">{formatCurrency(0)}</p>
-            </div>
-            <div>
-              <p className="text-secondary-100 text-sm">Total Withdrawn</p>
-              <p className="text-xl font-semibold">{formatCurrency(0)}</p>
-            </div>
-          </div>
-        </Card>
-
-        {/* Quick Actions */}
-        <div className="grid md:grid-cols-2 gap-4 mb-6">
-          <Button className="bg-secondary-600 hover:bg-secondary-700 h-auto py-4">
-            <Download className="w-5 h-5 mr-2" />
-            Request Payout
-          </Button>
-          <Button variant="outline" className="h-auto py-4">
-            View Payout History
-          </Button>
-        </div>
-
-        {/* Stats */}
-        <div className="grid md:grid-cols-3 gap-4 mb-6">
-          <Card>
-            <p className="text-gray-600 text-sm mb-1">This Week</p>
-            <p className="text-2xl font-bold text-gray-900">{formatCurrency(0)}</p>
-            <p className="text-sm text-green-600 mt-1">+0% from last week</p>
-          </Card>
-          <Card>
-            <p className="text-gray-600 text-sm mb-1">This Month</p>
-            <p className="text-2xl font-bold text-gray-900">{formatCurrency(0)}</p>
-            <p className="text-sm text-green-600 mt-1">+0% from last month</p>
-          </Card>
-          <Card>
-            <p className="text-gray-600 text-sm mb-1">Pending</p>
-            <p className="text-2xl font-bold text-gray-900">{formatCurrency(0)}</p>
-            <p className="text-sm text-gray-500 mt-1">In progress jobs</p>
-          </Card>
-        </div>
-
-        {/* Transaction History */}
-        <Card>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold">Transaction History</h2>
-            <Button variant="ghost" size="sm">
-              View All
-              <ArrowRight className="w-4 h-4 ml-1" />
-            </Button>
-          </div>
-
-          {mockTransactions.length > 0 ? (
-            <div className="space-y-3">
-              {mockTransactions.map((transaction) => (
-                <div
-                  key={transaction.id}
-                  className="flex items-center justify-between py-3 border-b last:border-0"
-                >
-                  <div className="flex items-center space-x-3">
-                    <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                        transaction.type === 'credit'
-                          ? 'bg-green-100'
-                          : 'bg-red-100'
-                      }`}
-                    >
-                      {transaction.type === 'credit' ? (
-                        <TrendingUp className="w-5 h-5 text-green-600" />
-                      ) : (
-                        <TrendingDown className="w-5 h-5 text-red-600" />
-                      )}
-                    </div>
-                    <div>
-                      <p className="font-medium">{transaction.description}</p>
-                      <p className="text-sm text-gray-500">
-                        {formatDate(transaction.createdAt, 'PPP')}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p
-                      className={`font-semibold ${
-                        transaction.type === 'credit'
-                          ? 'text-green-600'
-                          : 'text-red-600'
-                      }`}
-                    >
-                      {transaction.type === 'credit' ? '+' : '-'}
-                      {formatCurrency(transaction.amount)}
-                    </p>
-                    <Badge
-                      variant={
-                        transaction.type === 'credit' ? 'success' : 'default'
-                      }
-                    >
-                      {transaction.type}
-                    </Badge>
-                  </div>
+        <motion.div variants={itemVariants} className="grid md:grid-cols-3 gap-6 mb-8">
+          <Card className="md:col-span-2 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white border-none">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-secondary-100 mb-2">Total Balance</p>
+                <h2 className="text-4xl font-bold mb-4">{formatCurrency(balance?.data?.balance || 0)}</h2>
+                <div className="flex space-x-4 text-sm text-secondary-100">
+                  <span>Pending: {formatCurrency(balance?.data?.pendingAmount || 0)}</span>
+                  <span>•</span>
+                  <span>Withdrawn: {formatCurrency(balance?.data?.totalWithdrawn || 0)}</span>
                 </div>
-              ))}
+              </div>
+              <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm">
+                <Wallet className="w-8 h-8 text-white" />
+              </div>
             </div>
-          ) : (
-            <div className="text-center py-12">
-              <Wallet className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">No transactions yet</p>
+            <div className="mt-8 pt-6 border-t border-white/10 flex gap-4">
+              <Button 
+                variant="secondary" // Should appear white/light on dark background
+                className="bg-white text-secondary-700 hover:bg-gray-100 border-none"
+                onClick={() => setShowPayoutModal(true)}
+              >
+                Request Payout
+              </Button>
             </div>
-          )}
-        </Card>
-      </div>
+          </Card>
+
+          <Card className="flex flex-col justify-center items-center text-center p-6">
+             <h3 className="text-gray-500 mb-2">Total Earnings</h3>
+             <p className="text-3xl font-bold text-gray-900 mb-2">
+                 {formatCurrency(balance?.data?.totalEarnings || 0)}
+             </p>
+             <p className="text-sm text-green-600 flex items-center">
+                 <ArrowUpRight className="w-4 h-4 mr-1" />
+                 Lifetime
+             </p>
+          </Card>
+        </motion.div>
+
+        {/* Transactions */}
+        <motion.div variants={itemVariants}>
+          <Card>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-semibold">Transaction History</h2>
+              <Button variant="ghost" size="sm">
+                <Download className="w-4 h-4 mr-2" />
+                Export
+              </Button>
+            </div>
+            
+            <div className="space-y-4">
+              {transactions?.data && transactions.data.length > 0 ? (
+                  transactions.data.map((tx) => (
+                    <div key={tx.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100 hover:border-gray-200 transition-colors">
+                        <div className="flex items-center space-x-4">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                            tx.type === 'credit' ? 'bg-green-100 text-green-600' : 
+                            tx.type === 'debit' ? 'bg-red-100 text-red-600' :
+                            'bg-blue-100 text-blue-600' // Payout
+                        }`}>
+                            {tx.type === 'credit' ? <ArrowDownLeft className="w-5 h-5" /> : 
+                             tx.type === 'debit' ? <ArrowUpRight className="w-5 h-5" /> :
+                             <Wallet className="w-5 h-5" />}
+                        </div>
+                        <div>
+                            <p className="font-medium text-gray-900 capitalize">{tx.description || tx.type}</p>
+                            <p className="text-sm text-gray-500">{formatDateTime(tx.createdAt)}</p>
+                        </div>
+                        </div>
+                        <div className="text-right">
+                        <p className={`font-bold ${
+                            tx.type === 'credit' ? 'text-green-600' : 'text-gray-900'
+                        }`}>
+                            {tx.type === 'credit' ? '+' : '-'}{formatCurrency(tx.amount)}
+                        </p>
+                        <p className="text-xs text-gray-500 capitalize">{tx.status}</p>
+                        </div>
+                    </div>
+                  ))
+              ) : (
+                  <div className="text-center py-8 text-gray-500">
+                      No transactions found
+                  </div>
+              )}
+            </div>
+          </Card>
+        </motion.div>
+      </motion.div>
+
+      {/* Payout Modal */}
+      <Modal
+        isOpen={showPayoutModal}
+        onClose={() => setShowPayoutModal(false)}
+        title="Request Payout"
+      >
+        <div className="space-y-4">
+            <div className="bg-yellow-50 p-4 rounded-lg flex gap-3 text-sm text-yellow-800">
+                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                <p>
+                    Payouts are processed within 24-48 hours. Minimum withdrawal amount is ₹100.
+                </p>
+            </div>
+            
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Amount (Available: {formatCurrency(balance?.data?.balance || 0)})
+                </label>
+                <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+                    <Input 
+                        type="number" 
+                        className="pl-8"
+                        placeholder="Enter amount"
+                        value={payoutAmount}
+                        onChange={(e) => setPayoutAmount(e.target.value)}
+                        max={balance?.data?.balance}
+                        min={100}
+                    />
+                </div>
+            </div>
+
+            <div className="flex justify-end gap-3 pt-4">
+                <Button variant="ghost" onClick={() => setShowPayoutModal(false)}>
+                    Cancel
+                </Button>
+                <Button 
+                    onClick={handleRequestPayout}
+                    disabled={requestPayout.isPending || !payoutAmount}
+                    variant="secondary"
+                >
+                    {requestPayout.isPending ? 'Processing...' : 'Confirm Request'}
+                </Button>
+            </div>
+        </div>
+      </Modal>
     </div>
   );
 }

@@ -57,6 +57,19 @@ export const workerService = {
         return response.data;
     },
 
+    // Update profile image
+    updateProfileImage: async (image: File): Promise<ApiResponse<Worker>> => {
+        const formData = new FormData();
+        formData.append('profilePicture', image);
+        // We must override the default 'application/json' from apiClient
+        const response = await apiClient.put('/workers/profile/image', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data;
+    },
+
     // Upload KYC documents
     uploadKYC: async (data: UploadKYCData): Promise<ApiResponse> => {
         const response = await apiClient.post('/workers/kyc', data);

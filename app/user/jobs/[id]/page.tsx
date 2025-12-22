@@ -10,6 +10,7 @@ import { Rating } from '@/components/feedback/Rating';
 import { Textarea } from '@/components/forms/Textarea';
 import { 
   MapPin, 
+  ArrowLeft,
   Clock, 
   User, 
   Phone, 
@@ -72,19 +73,22 @@ export default function JobDetailsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-900">Job Tracking</h1>
-            <Button variant="ghost" onClick={() => router.push('/user')}>
-              Back to Dashboard
+      <div className="container mx-auto py-8 max-w-4xl">
+         <header className="bg-white border-b sticky top-0 z-10">
+        <div className="container mx-auto py-4">
+          <div className="flex items-center gap-3">
+            <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => router.push('/user/jobs')}
+                className="-ml-2 text-gray-500 hover:text-gray-900"
+            >
+                <ArrowLeft className="w-5 h-5" />
             </Button>
+            <h1 className="text-2xl font-bold text-gray-900">Job Tracking</h1>
           </div>
         </div>
       </header>
-
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Status Banner */}
         <Card className="mb-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white">
           <div className="flex items-center justify-between">
