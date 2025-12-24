@@ -3,7 +3,8 @@ import { ServiceType } from './worker';
 export interface Job {
     id: string;
     userId: string;
-    workerId?: string;
+    workerId?: string; // This might be used in some contexts, keeping it
+    assignedWorkerId?: string; // Adding this matching backend model
     addressId: string;
     serviceType: ServiceType;
     title: string;
@@ -30,6 +31,13 @@ export interface Job {
         name: string;
         phone: string;
         avgRating: number;
+    };
+    assignedWorker?: {
+        id: string;
+        name: string;
+        phone: string;
+        avgRating: number;
+        profileImage?: string;
     };
     address?: {
         id: string;

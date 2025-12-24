@@ -8,16 +8,17 @@ import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
 import { Select } from '@/components/forms/Select';
 import { useRouter } from 'next/navigation';
-import { MapPin, Clock, Search, Filter, Loader2 } from 'lucide-react';
+import { MapPin, Clock, Search, Filter, Loader2, CheckCircle } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils/currency';
 import { formatDateTime } from '@/lib/utils/date';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useWorkerJobs, useAcceptJob, useDeclineJob } from '@/lib/hooks/useWorker';
+import { useWorkerJobs, useWorkerInbox, useAcceptJob, useDeclineJob, useCompleteJob, useStartJob } from '@/lib/hooks/useWorker';
+import { useDebounce } from '@/lib/hooks/useDebounce';
 
 export default function WorkerJobsPage() {
   const router = useRouter();
-  const [filter, setFilter] = useState<'assigned' | 'in_progress' | 'completed'>('assigned');
+  const [filter, setFilter] = useState<'new' | 'active' | 'history'>('new');
 
   // Advanced Filter State
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,14 +30,48 @@ export default function WorkerJobsPage() {
     serviceType: '',
   });
 
-  const { data: jobs, isLoading } = useWorkerJobs({
-    status: filter,
-    // Pass other filters if backend supports them directly, otherwise filtering client-side below
-    // For now, assuming backend filters by status primarily
+  const [appliedFilters, setAppliedFilters] = useState({
+    minPrice: '',
+    maxPrice: '',
+    serviceType: '',
   });
+
+  // Complete Job State
+  const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
+  const [finalPrice, setFinalPrice] = useState(''); const debouncedSearch = useDebounce(searchQuery, 500);
+
+  const queryParams = {
+    search: debouncedSearch,
+    minPrice: appliedFilters.minPrice,
+    maxPrice: appliedFilters.maxPrice,
+    serviceType: appliedFilters.serviceType,
+  };
+
+  const { data: jobs, isLoading: isLoadingJobs } = useWorkerJobs({
+    status: filter,
+    ...queryParams,
+  }, filter === 'active' || filter === 'history');
+
+  const { data: inbox, isLoading: isLoadingInbox } = useWorkerInbox({
+    ...queryParams,
+  }, filter === 'new');
+
+  // Re-map tabs: 
+  // 'new' -> Inbox (pending invites)
+  // 'active' -> My Active Jobs (assigned/in_progress)
+  // 'history' -> History (completed/cancelled/disputed)
+
+  const isLoading = isLoadingJobs || (filter === 'new' && isLoadingInbox);
+
+  // Decide what to show based on filter
+  const displayJobs = filter === 'new' ? inbox?.data : jobs?.data;
 
   const acceptJob = useAcceptJob();
   const declineJob = useDeclineJob();
+  const startJob = useStartJob();
+  const completeJob = useCompleteJob();
+
 
   const handleAcceptJob = (id: string) => {
     acceptJob.mutate(id, {
@@ -56,47 +91,63 @@ export default function WorkerJobsPage() {
     declineJob.mutate({ id, reason });
   };
 
+  const handleStartJob = (id: string) => {
+    startJob.mutate(id);
+  };
+
+  const handleOpenCompleteModal = (job: any) => {
+    setSelectedJobId(job.id);
+    setFinalPrice(job.priceEstimate?.toString() || '');
+    setShowCompleteModal(true);
+  };
+
+  const handleCompleteJob = () => {
+    if (!selectedJobId || !finalPrice) return;
+
+    completeJob.mutate({
+      id: selectedJobId,
+      finalPrice: parseFloat(finalPrice)
+    }, {
+      onSuccess: () => {
+        setShowCompleteModal(false);
+        setSelectedJobId(null);
+        setFinalPrice('');
+      }
+    });
+  };
   const activeFilterCount = [
-    filters.minPrice,
-    filters.maxPrice,
-    filters.maxDistance,
-    filters.serviceType
+    appliedFilters.minPrice,
+    appliedFilters.maxPrice,
+    appliedFilters.serviceType
   ].filter(Boolean).length;
 
+  const handleApplyFilters = () => {
+    setAppliedFilters({
+      minPrice: filters.minPrice,
+      maxPrice: filters.maxPrice,
+      serviceType: filters.serviceType,
+    });
+    setShowFilterModal(false);
+  };
+
   const clearFilters = () => {
-    setFilters({
+    const defaultFilters = {
       minPrice: '',
       maxPrice: '',
       maxDistance: '',
+      serviceType: '',
+    };
+    setFilters(defaultFilters);
+    setAppliedFilters({
+      minPrice: '',
+      maxPrice: '',
       serviceType: '',
     });
     setShowFilterModal(false);
   };
 
-  // Client-side filtering for demo (or until backend supports advanced search params)
-  const filteredJobs = jobs?.data?.filter(job => {
-    // 1. Search Query
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      const matchesTitle = job.title.toLowerCase().includes(query);
-      const matchesDesc = job.description?.toLowerCase().includes(query) || false;
-      if (!matchesTitle && !matchesDesc) return false;
-    }
-
-    // 2. Price Filter
-    // Note: job has estimatedPrice (worker view might have price field)
-    const price = job.priceEstimate || 0;
-    if (filters.minPrice && price < Number(filters.minPrice)) return false;
-    if (filters.maxPrice && price > Number(filters.maxPrice)) return false;
-
-    // 3. Service Type Filter
-    if (filters.serviceType && job.serviceType !== filters.serviceType) return false;
-
-    // 4. Distance Filter (Need distance in job object, mock supported it, real API might not return it yet)
-    // Skipping distance for now if not in type
-
-    return true;
-  }) || [];
+  // Client-side filtering removed - now handled by API
+  const filteredJobs = displayJobs || [];
 
   return (
     <div className="min-h-screen bg-gray-50/50">
@@ -112,25 +163,25 @@ export default function WorkerJobsPage() {
         {/* Filter Tabs */}
         <div className="flex space-x-2 mb-6 overflow-x-auto py-1 pl-1">
           <Button
-            variant={filter === 'assigned' ? 'secondary' : 'secondary-outline'}
-            onClick={() => setFilter('assigned')}
+            variant={filter === 'new' ? 'secondary' : 'secondary-outline'}
+            onClick={() => setFilter('new')}
             size="sm"
           >
-            New Jobs
+            Invites ({inbox?.pagination?.totalItems || 0})
           </Button>
           <Button
-            variant={filter === 'in_progress' ? 'secondary' : 'secondary-outline'}
-            onClick={() => setFilter('in_progress')}
+            variant={filter === 'active' ? 'secondary' : 'secondary-outline'}
+            onClick={() => setFilter('active')}
             size="sm"
           >
-            Accepted / In Progress
+            Active Jobs
           </Button>
           <Button
-            variant={filter === 'completed' ? 'secondary' : 'secondary-outline'}
-            onClick={() => setFilter('completed')}
+            variant={filter === 'history' ? 'secondary' : 'secondary-outline'}
+            onClick={() => setFilter('history')}
             size="sm"
           >
-            Completed
+            History
           </Button>
         </div>
 
@@ -189,16 +240,28 @@ export default function WorkerJobsPage() {
                     {/* Distance if available */}
                     <div className="flex items-center text-gray-600">
                       <MapPin className="w-4 h-4 mr-2" />
-                      {/* Placeholder for address until fully populated */}
-                      <span className="text-sm">View Location</span>
+                      {/* Address Link */}
+                      {job.address ? (
+                        <a
+                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${job.address.addressLine || ''} ${job.address.city || ''} ${job.address.state || ''} ${job.address.pincode || ''}`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-secondary-600 hover:underline"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          View Location
+                        </a>
+                      ) : (
+                        <span className="text-sm">Location not available</span>
+                      )}
                     </div>
                     <div className="flex items-center text-gray-600">
                       <Clock className="w-4 h-4 mr-2" />
-                      <span className="text-sm">{formatDateTime(job.createdAt || '')}</span>
+                      <span className="text-sm">{formatDateTime(job.createdAt || (job as any).created_at)}</span>
                     </div>
                   </div>
 
-                  {filter === 'assigned' && (
+                  {filter === 'new' && (
                     <div className="flex space-x-3">
                       <Button
                         onClick={() => handleAcceptJob(job.id)}
@@ -217,11 +280,52 @@ export default function WorkerJobsPage() {
                       </Button>
                     </div>
                   )}
-                  {filter !== 'assigned' && (
-                    <div className="flex space-x-3">
+                  {filter !== 'active' && filter !== 'history' && (
+                    <div className="flex justify-end space-x-3 space-y-2 mt-2">
+
                       <Button
                         onClick={() => router.push(`/worker/jobs/${job.id}`)}
-                        className="flex-1"
+                        className="w-fit"
+                        variant="secondary"
+                      >
+                        View Details
+                      </Button>
+                    </div>
+                  )}
+                  {filter === 'active' && (
+                    <div className="flex justify-end space-x-3">
+                      {job.status === 'assigned' && (
+                        <Button
+                          onClick={() => handleStartJob(job.id)}
+                          disabled={startJob.isPending}
+                          className="flex-1 bg-secondary-600 hover:bg-secondary-700"
+                        >
+                          {startJob.isPending ? 'Starting...' : 'Start Job'}
+                        </Button>
+                      )}
+                      {job.status === 'in_progress' && (
+                        <Button
+                          onClick={() => handleOpenCompleteModal(job)}
+                          className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                        >
+                          <CheckCircle className="w-4 h-4 mr-2" />
+                          Complete Job
+                        </Button>
+                      )}
+                      <Button
+                        onClick={() => router.push(`/worker/jobs/${job.id}`)}
+                        className="w-fit"
+                        variant="secondary"
+                      >
+                        View Details
+                      </Button>
+                    </div>
+                  )}
+                  {filter === 'history' && (
+                    <div className="flex justify-end space-x-3">
+                      <Button
+                        onClick={() => router.push(`/worker/jobs/${job.id}`)}
+                        className="w-fit"
                         variant="secondary"
                       >
                         View Details
@@ -287,8 +391,49 @@ export default function WorkerJobsPage() {
             <Button variant="secondary-outline" onClick={clearFilters} className="flex-1">
               Reset
             </Button>
-            <Button onClick={() => setShowFilterModal(false)} className="flex-1" variant="secondary">
+            <Button onClick={handleApplyFilters} className="flex-1" variant="secondary">
               Apply Filters
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Complete Job Modal */}
+      <Modal
+        isOpen={showCompleteModal}
+        onClose={() => setShowCompleteModal(false)}
+        title="Complete Job"
+      >
+        <div className="space-y-4">
+          <p className="text-gray-600">
+            Please confirm the final agreed price for this job.
+          </p>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Final Price (₹)
+            </label>
+            <Input
+              type="number"
+              value={finalPrice}
+              onChange={(e) => setFinalPrice(e.target.value)}
+              placeholder="Enter final amount"
+              min="0"
+            />
+          </div>
+          <div className="flex space-x-3 pt-4">
+            <Button
+              variant="ghost"
+              onClick={() => setShowCompleteModal(false)}
+              className="flex-1"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleCompleteJob}
+              disabled={completeJob.isPending || !finalPrice}
+              className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+            >
+              {completeJob.isPending ? 'Completing...' : 'Complete Job'}
             </Button>
           </div>
         </div>

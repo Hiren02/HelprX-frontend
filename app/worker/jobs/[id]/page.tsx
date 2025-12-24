@@ -101,8 +101,8 @@ export default function JobExecutionPage() {
 
         {/* Status Banner */}
         <Card className={`mb-6 ${job.status === 'assigned' ? 'bg-secondary-600' :
-            job.status === 'in_progress' ? 'bg-secondary-700' :
-              job.status === 'completed' ? 'bg-green-600' : 'bg-gray-600'
+          job.status === 'in_progress' ? 'bg-secondary-700' :
+            job.status === 'completed' ? 'bg-green-600' : 'bg-gray-600'
           } text-white border-none`}>
           <div className="flex items-center justify-between">
             <div>
@@ -123,30 +123,17 @@ export default function JobExecutionPage() {
             <p className="text-sm text-gray-500">Actions</p>
           </div>
           <div className="flex gap-3">
+            {job.status === 'matching' && (
+              <div className="flex gap-2">
+                <Button onClick={() => acceptJob.mutate(id)} variant="secondary">Accept Job</Button>
+                <Button onClick={() => declineJob.mutate({ id, reason: 'Declined' })} variant="danger">Decline</Button>
+              </div>
+            )}
+
             {job.status === 'assigned' && (
-              <>
-                {/* Assuming no 'isAccepted' field, we can't distinguish New vs Accepted-Waiting-Start 
-                        unless we track it or if backend uses 'assigned' for both.
-                        I'll show Start button if Accept button is NOT shown?
-                        Or show both?
-                        
-                        I'll show [Accept] and [Decline].
-                        AND [Start Job] separate?
-                        
-                        Safe bet: 
-                        [Start Job]
-                        [Accept Job]
-                        [Decline Job]
-                        
-                        Worker can click Accept. Then click Start.
-                        If already accepted, Accept might fail or be idempotent.
-                    */}
-                <div className="flex gap-2">
-                  <Button onClick={() => handleStartJob()} variant="secondary">Start Job</Button>
-                  <Button onClick={() => acceptJob.mutate(id)} variant="secondary-outline">Accept</Button>
-                  <Button onClick={() => declineJob.mutate({ id, reason: 'Declined' })} variant="danger">Decline</Button>
-                </div>
-              </>
+              <div className="flex gap-2">
+                <Button onClick={() => handleStartJob()} variant="secondary">Start Job</Button>
+              </div>
             )}
 
             {job.status === 'in_progress' && (
@@ -200,7 +187,6 @@ export default function JobExecutionPage() {
               <div className="flex items-start gap-3 text-gray-700">
                 <MapPin className="w-5 h-5 text-gray-400 mt-1" />
                 <div>
-                  {/* Address object structure might vary, adapting */}
                   {job.address ? (
                     <>
                       <p className="font-medium">{job.address.label || 'Address'}</p>

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { cn } from '@/lib/utils/common';
 import { motion } from 'framer-motion';
@@ -37,9 +39,9 @@ export const Card: React.FC<CardProps> = ({
       onClick={onClick}
       {...(hover
         ? {
-            whileHover: { y: -4, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" },
-            transition: { type: 'spring', stiffness: 300 }
-          }
+          whileHover: { y: -4, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" },
+          transition: { type: 'spring', stiffness: 300 }
+        }
         : {})}
     >
       {children}

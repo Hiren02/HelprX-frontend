@@ -2,24 +2,49 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { workerService, UpdateAvailabilityData, UpdateWorkerProfileData, UpdateSkillsData, UploadKYCData } from '../api/services/workers';
 import toast from 'react-hot-toast';
 
-export const useWorkerProfile = () => {
+export const useWorkerProfile = (enabled: boolean = true) => {
     return useQuery({
         queryKey: ['worker', 'profile'],
         queryFn: workerService.getProfile,
+        enabled,
     });
 };
 
-export const useWorkerStats = () => {
+export const useWorkerStats = (params?: { range?: string; startDate?: string; endDate?: string }) => {
     return useQuery({
-        queryKey: ['worker', 'stats'],
-        queryFn: workerService.getStats,
+        queryKey: ['worker', 'stats', params],
+        queryFn: () => workerService.getStats(params),
     });
 };
 
-export const useWorkerJobs = (params?: { status?: string; page?: number; limit?: number }) => {
+export const useWorkerJobs = (params?: {
+    status?: string;
+    page?: number;
+    limit?: number;
+    search?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    serviceType?: string;
+}, enabled: boolean = true) => {
     return useQuery({
         queryKey: ['worker', 'jobs', params],
         queryFn: () => workerService.getJobs(params),
+        enabled,
+    });
+};
+
+export const useWorkerInbox = (params?: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    serviceType?: string;
+}, enabled: boolean = true) => {
+    return useQuery({
+        queryKey: ['worker', 'inbox', params],
+        queryFn: () => workerService.getInbox(params),
+        enabled,
     });
 };
 
@@ -91,6 +116,7 @@ export const useAcceptJob = () => {
         mutationFn: (id: string) => jobService.acceptJob(id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['worker', 'jobs'] });
+            queryClient.invalidateQueries({ queryKey: ['worker', 'inbox'] });
             toast.success('Job accepted');
         },
         onError: (error: any) => {
@@ -105,6 +131,7 @@ export const useDeclineJob = () => {
         mutationFn: ({ id, reason }: { id: string; reason: string }) => jobService.declineJob(id, reason),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['worker', 'jobs'] });
+            queryClient.invalidateQueries({ queryKey: ['worker', 'inbox'] });
             toast.success('Job declined');
         },
         onError: (error: any) => {

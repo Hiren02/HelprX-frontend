@@ -209,11 +209,11 @@ export default function WorkerProfilePage() {
                         </Button>
                     ) : (
                         <div className="flex gap-2">
-                            <Button onClick={() => setIsEditing(false)} variant="ghost" className="text-red-600 hover:text-red-700 hover:bg-red-50">
+                            <Button onClick={() => setIsEditing(false)} variant="ghost" className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-400 border-[1px]">
                                 <X className="w-4 h-4 mr-2" />
                                 Cancel
                             </Button>
-                            <Button onClick={handleSubmit(onProfileSubmit)} disabled={updateProfile.isPending}>
+                            <Button onClick={handleSubmit(onProfileSubmit)} disabled={updateProfile.isPending} variant="secondary">
                                 {updateProfile.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Save className="w-4 h-4 mr-2" />}
                                 Save Changes
                             </Button>
@@ -428,7 +428,9 @@ export default function WorkerProfilePage() {
                                     </div>
                                     <div>
                                         <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Region</p>
-                                        <p className="text-sm font-medium text-gray-700">Mumbai, MS</p>
+                                        <p className="text-sm font-medium text-gray-700">
+                                            {addresses?.data?.[0] ? `${addresses.data[0].city}, ${addresses.data[0].state}` : 'Not Set'}
+                                        </p>
                                     </div>
                                 </div>
                             </div>

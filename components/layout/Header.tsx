@@ -19,7 +19,7 @@ export function Header() {
   const isWorkerPath = pathname.startsWith('/worker');
 
   // Only fetch worker profile if they are a worker to avoid unnecessary calls for regular users
-  const { data: workerProfile } = useWorkerProfile();
+  const { data: workerProfile } = useWorkerProfile(user?.role === 'worker');
   const kycStatus = user?.role === 'worker' ? workerProfile?.data?.kycStatus : null;
   const isPendingWorker = user?.role === 'worker' && kycStatus === 'pending';
 
@@ -32,18 +32,26 @@ export function Header() {
     toast.success('Logged out successfully');
   };
 
-  const navLinks = user?.role === 'worker'
-    ? [
-      { href: '/worker', label: 'Dashboard' },
-      { href: '/worker/jobs', label: 'Job Inbox' },
-      { href: '/worker/wallet', label: 'Wallet' },
-      { href: '/worker/profile', label: 'Profile' },
-    ]
+  const navLinks = user
+    ? (user.role === 'worker'
+      ? [
+        { href: '/worker', label: 'Dashboard' },
+        { href: '/worker/jobs', label: 'Job Inbox' },
+        { href: '/worker/wallet', label: 'Wallet' },
+        { href: '/worker/profile', label: 'Profile' },
+      ]
+      : [
+        { href: '/user', label: 'Dashboard' },
+        { href: '/user/search', label: 'Find Service' },
+        { href: '/user/jobs', label: 'My Jobs' },
+        { href: '/user/profile', label: 'Profile' },
+      ])
     : [
-      { href: '/user', label: 'Dashboard' },
-      { href: '/user/search', label: 'Find Service' },
-      { href: '/user/jobs', label: 'My Jobs' },
-      { href: '/user/profile', label: 'Profile' },
+      { href: '/', label: 'Home' },
+      { href: '/services', label: 'Services' },
+      { href: '/how-it-works', label: 'How it works' },
+      { href: '/about', label: 'About Us' },
+      { href: '/contact', label: 'Contact Us' },
     ];
 
   return (
@@ -76,15 +84,15 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1 ml-8">
-            {pathname !== '/worker/onboarding' && !isPendingWorker && navLinks.map((link) => {
+            {(user ? (pathname !== '/worker/onboarding' && !isPendingWorker) : true) && navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive
-                      ? (isWorkerPath ? 'bg-secondary-50 text-secondary-700' : 'bg-primary-50 text-primary-700')
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    ? (isWorkerPath ? 'bg-secondary-50 text-secondary-700' : 'bg-primary-50 text-primary-700')
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                     }`}
                 >
                   {link.label}
@@ -103,8 +111,16 @@ export function Header() {
                 <span className={`text-sm font-medium text-gray-700 ${isWorkerPath ? 'group-hover:text-secondary-700' : 'group-hover:text-primary-700'} transition-colors`}>
                   {user.name?.split(' ')[0] || (isWorkerPath ? 'Worker' : 'User')}
                 </span>
-                <div className={`w-8 h-8 ${isWorkerPath ? 'bg-secondary-100 text-secondary-600 border-secondary-200 group-hover:bg-secondary-200' : 'bg-primary-100 text-primary-600 border-primary-200 group-hover:bg-primary-200'} rounded-full flex items-center justify-center font-bold border transition-colors`}>
-                  {user.name?.[0]?.toUpperCase() || (isWorkerPath ? 'W' : 'U')}
+                <div className={`w-8 h-8 ${isWorkerPath ? 'bg-secondary-100 text-secondary-600 border-secondary-200 group-hover:bg-secondary-200' : 'bg-primary-100 text-primary-600 border-primary-200 group-hover:bg-primary-200'} rounded-full flex items-center justify-center font-bold border transition-colors overflow-hidden`}>
+                  {user.profileImage || (isWorkerPath && workerProfile?.data?.profileImage) ? (
+                    <img
+                      src={user.profileImage || workerProfile?.data?.profileImage}
+                      alt={user.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    user.name?.[0]?.toUpperCase() || (isWorkerPath ? 'W' : 'U')
+                  )}
                 </div>
               </Link>
 
@@ -118,8 +134,16 @@ export function Header() {
               </Button>
 
               <Link href={isWorkerPath ? "/worker/profile" : "/user/profile"} className="md:hidden">
-                <div className={`w-8 h-8 ${isWorkerPath ? 'bg-secondary-100 text-secondary-600 border-secondary-200' : 'bg-primary-100 text-primary-600 border-primary-200'} rounded-full flex items-center justify-center font-bold border`}>
-                  {user.name?.[0]?.toUpperCase() || (isWorkerPath ? 'W' : 'U')}
+                <div className={`w-8 h-8 ${isWorkerPath ? 'bg-secondary-100 text-secondary-600 border-secondary-200' : 'bg-primary-100 text-primary-600 border-primary-200'} rounded-full flex items-center justify-center font-bold border overflow-hidden`}>
+                  {user.profileImage || (isWorkerPath && workerProfile?.data?.profileImage) ? (
+                    <img
+                      src={user.profileImage || workerProfile?.data?.profileImage}
+                      alt={user.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    user.name?.[0]?.toUpperCase() || (isWorkerPath ? 'W' : 'U')
+                  )}
                 </div>
               </Link>
             </>

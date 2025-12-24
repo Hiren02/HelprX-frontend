@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { useAddresses } from '@/lib/hooks/useAddresses';
 import { Button } from '@/components/ui/Button';
@@ -98,11 +100,10 @@ export function AddAddressModal({ isOpen, onClose }: AddAddressModalProps) {
                       <button
                         key={label}
                         type="button"
-                        className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-                          formData.label === label
+                        className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${formData.label === label
                             ? 'bg-primary-50 border-primary-600 text-primary-700 shadow-sm'
                             : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                        }`}
+                          }`}
                         onClick={() => setFormData({ ...formData, label })}
                       >
                         {label}

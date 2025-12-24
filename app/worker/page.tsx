@@ -20,11 +20,16 @@ export default function WorkerDashboardPage() {
   const { user } = useAppSelector((state: RootState) => state.auth);
 
   const { data: profile, isLoading: isLoadingProfile } = useWorkerProfile();
-  const { data: stats, isLoading: isLoadingStats } = useWorkerStats();
+  const [timeRange, setTimeRange] = useState('week');
+  const [customRange, setCustomRange] = useState({ start: '', end: '' });
+
+  const { data: stats, isLoading: isLoadingStats } = useWorkerStats({
+    range: timeRange,
+    startDate: customRange.start,
+    endDate: customRange.end
+  });
   const { data: recentJobs, isLoading: isLoadingJobs } = useWorkerJobs({ limit: 5 });
   const updateAvailability = useUpdateAvailability();
-
-  const [timeRange, setTimeRange] = useState('week');
 
   const isOnline = profile?.data?.availabilityStatus === 'online';
 
@@ -110,7 +115,24 @@ export default function WorkerDashboardPage() {
               <TrendingUp className=" h-5 mr-2 text-secondary-600" />
               Analytics & Performance
             </h2>
-            <div className='flex items-center gap-2'>
+            <div className="flex items-center gap-2">
+              {timeRange === 'custom' && (
+                <div className="flex items-center gap-2 mr-2">
+                  <input
+                    type="date"
+                    className="text-xs border rounded px-2 py-1"
+                    value={customRange.start}
+                    onChange={(e) => setCustomRange({ ...customRange, start: e.target.value })}
+                  />
+                  <span className="text-xs text-gray-400">to</span>
+                  <input
+                    type="date"
+                    className="text-xs border rounded px-2 py-1"
+                    value={customRange.end}
+                    onChange={(e) => setCustomRange({ ...customRange, end: e.target.value })}
+                  />
+                </div>
+              )}
               <Select
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
@@ -118,6 +140,7 @@ export default function WorkerDashboardPage() {
                   { value: 'week', label: 'This Week' },
                   { value: 'month', label: 'This Month' },
                   { value: 'year', label: 'This Year' },
+                  { value: 'custom', label: 'Custom Range' },
                 ]}
                 className="w-fit"
               />
@@ -125,23 +148,31 @@ export default function WorkerDashboardPage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Mock Earnings Chart - Backend doesn't support historical data yet */}
-            <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">Earnings Overview (Demo)</h3>
-              <div className="h-64 flex items-end justify-between px-2 gap-2">
-                {[450, 800, 300, 1200, 600, 950, 150].map((amount, i) => {
-                  const height = Math.min((amount / 1200) * 100, 100);
-                  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            {/* Earnings Chart */}
+            <div className="bg-gray-50 rounded-lg p-4 border border-gray-100 overflow-hidden">
+              <h3 className="text-sm font-semibold text-gray-700 mb-4">Earnings Overview</h3>
+              <div className={`h-64 flex items-end justify-between px-2 ${(stats?.data?.dailyEarnings || []).length > 20 ? 'gap-0.5' : (stats?.data?.dailyEarnings || []).length > 10 ? 'gap-1' : 'gap-2'}`}>
+                {(stats?.data?.dailyEarnings || []).map((dayData: any, i: number) => {
+                  const date = new Date(dayData.date);
+                  const isMonthly = dayData.date.length === 7; // YYYY-MM
+
+                  const label = isMonthly
+                    ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getMonth()]
+                    : date.getDate().toString();
+
+                  const maxEarnings = Math.max(...(stats?.data?.dailyEarnings || []).map((d: any) => d.earnings), 500);
+                  const height = Math.min((dayData.earnings / maxEarnings) * 100, 100);
+
                   return (
-                    <div key={i} className="flex flex-col items-center flex-1 group relative">
-                      <div className="absolute bottom-full mb-1 opacity-0 group-hover:opacity-100 bg-gray-900 text-white text-xs py-1 px-2 rounded transition-opacity">
-                        ₹{amount}
+                    <div key={i} className="flex flex-col items-center flex-1 group relative h-full justify-end">
+                      <div className="absolute bottom-full mb-1 opacity-0 group-hover:opacity-100 bg-gray-900 text-white text-xs py-1 px-2 rounded transition-opacity whitespace-nowrap z-10">
+                        {formatCurrency(dayData.earnings)}
                       </div>
                       <div
-                        className="w-full bg-secondary-200 hover:bg-secondary-500 rounded-t-sm transition-colors duration-300"
-                        style={{ height: `${height}%` }}
+                        className="w-full bg-secondary-400 hover:bg-secondary-500 rounded-t-sm transition-all duration-300"
+                        style={{ height: `${height}%`, minHeight: dayData.earnings > 0 ? '4px' : '0px' }}
                       ></div>
-                      <span className="text-xs text-gray-500 mt-2">{days[i]}</span>
+                      <span className="text-[10px] text-gray-500 mt-2 truncate max-w-full text-center">{label}</span>
                     </div>
                   );
                 })}
@@ -214,7 +245,7 @@ export default function WorkerDashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm mb-1">Rating</p>
-                <p className="text-2xl font-bold text-gray-900">{profile?.data?.avgRating || 0.0}</p>
+                <p className="text-2xl font-bold text-gray-900">{stats?.data?.avgRating || profile?.data?.avgRating || 0.0}</p>
               </div>
               <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                 <Star className="w-6 h-6 text-yellow-600" />
@@ -226,7 +257,7 @@ export default function WorkerDashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm mb-1">Completed</p>
-                <p className="text-2xl font-bold text-gray-900">{stats?.data?.completedJobs || 0}</p>
+                <p className="text-2xl font-bold text-gray-900">{stats?.data?.completedJobs || profile?.data?.completedJobs || 0}</p>
               </div>
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
                 <TrendingUp className="w-6 h-6 text-purple-600" />
@@ -281,7 +312,7 @@ export default function WorkerDashboardPage() {
                 <div key={job.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100">
                   <div>
                     <p className="font-medium text-gray-900">{job.title}</p>
-                    <p className="text-sm text-gray-600">{formatDateTime(job.createdAt)}</p>
+                    <p className="text-sm text-gray-600">{formatDateTime(job.createdAt || (job as any).created_at)}</p>
                   </div>
                   <div className="text-right">
                     <Badge variant={job.status === 'completed' ? 'success' : job.status === 'in_progress' ? 'secondary' : 'default'}>

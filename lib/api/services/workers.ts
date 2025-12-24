@@ -77,14 +77,20 @@ export const workerService = {
     },
 
     // Get worker statistics
-    getStats: async (): Promise<ApiResponse<WorkerStats>> => {
-        const response = await apiClient.get('/workers/stats');
+    getStats: async (params?: { range?: string; startDate?: string; endDate?: string }): Promise<ApiResponse<WorkerStats>> => {
+        const response = await apiClient.get('/workers/stats', { params });
         return response.data;
     },
 
     // Get worker jobs
     getJobs: async (params?: { status?: string; page?: number; limit?: number }): Promise<PaginatedResponse<Job>> => {
         const response = await apiClient.get('/workers/jobs', { params });
+        return response.data;
+    },
+
+    // Get worker inbox (invites)
+    getInbox: async (params?: { page?: number; limit?: number }): Promise<PaginatedResponse<Job>> => {
+        const response = await apiClient.get('/workers/inbox', { params });
         return response.data;
     },
 };

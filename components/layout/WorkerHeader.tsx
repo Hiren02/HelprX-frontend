@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { RootState } from '@/store';
 import { clearUser } from '@/store/authSlice';
+import { useWorkerProfile } from '@/lib/hooks/useWorker';
 import toast from 'react-hot-toast';
 
 export function WorkerHeader() {
@@ -15,6 +16,8 @@ export function WorkerHeader() {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state: RootState) => state.auth);
+
+  const { data: workerProfile } = useWorkerProfile();
 
   const handleLogout = () => {
     dispatch(clearUser());
@@ -28,6 +31,8 @@ export function WorkerHeader() {
     { href: '/worker/wallet', label: 'Wallet' },
     { href: '/worker/profile', label: 'Profile' },
   ];
+
+  const profileImage = workerProfile?.data?.profileImage || user?.profileImage;
 
   return (
     <motion.header
@@ -74,8 +79,12 @@ export function WorkerHeader() {
                 <span className="text-sm font-medium text-gray-700 group-hover:text-secondary-700 transition-colors">
                   {user.name?.split(' ')[0] || 'Worker'}
                 </span>
-                <div className="w-8 h-8 bg-secondary-100 rounded-full flex items-center justify-center text-secondary-600 font-bold border border-secondary-200 group-hover:bg-secondary-200 transition-colors">
-                  {user.name?.[0]?.toUpperCase() || 'W'}
+                <div className="w-8 h-8 bg-secondary-100 rounded-full flex items-center justify-center text-secondary-600 font-bold border border-secondary-200 group-hover:bg-secondary-200 transition-colors overflow-hidden">
+                  {profileImage ? (
+                    <img src={profileImage} alt={user.name} className="w-full h-full object-cover" />
+                  ) : (
+                    user.name?.[0]?.toUpperCase() || 'W'
+                  )}
                 </div>
               </Link>
 
@@ -89,8 +98,12 @@ export function WorkerHeader() {
               </Button>
 
               <Link href="/worker/profile" className="md:hidden">
-                <div className="w-8 h-8 bg-secondary-100 rounded-full flex items-center justify-center text-secondary-600 font-bold border border-secondary-200">
-                  {user.name?.[0]?.toUpperCase() || 'W'}
+                <div className={`w-8 h-8 bg-secondary-100 rounded-full flex items-center justify-center text-secondary-600 font-bold border border-secondary-200 overflow-hidden`}>
+                  {profileImage ? (
+                    <img src={profileImage} alt={user.name} className="w-full h-full object-cover" />
+                  ) : (
+                    user.name?.[0]?.toUpperCase() || 'W'
+                  )}
                 </div>
               </Link>
             </>

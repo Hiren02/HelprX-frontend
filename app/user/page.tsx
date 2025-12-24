@@ -52,7 +52,7 @@ export default function UserDashboardPage() {
       {/* Header removed in favor of global layout header */}
 
       {/* Main Content */}
-      <motion.div 
+      <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="show"
@@ -126,12 +126,12 @@ export default function UserDashboardPage() {
               </Link>
             )}
           </div>
-          
+
           <Card className="border-gray-100 shadow-lg shadow-gray-100/50">
             {isLoading ? (
               <div className="text-center py-12">
-                 <div className="animate-spin w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-                 <p className="text-gray-500">Loading jobs...</p>
+                <div className="animate-spin w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+                <p className="text-gray-500">Loading jobs...</p>
               </div>
             ) : jobs.length === 0 ? (
               <div className="text-center py-16">
@@ -139,51 +139,57 @@ export default function UserDashboardPage() {
                   <Clock className="w-8 h-8 text-gray-400" />
                 </div>
                 <h3 className="text-lg font-medium text-gray-900 mb-1">No recent activity</h3>
-            <p className="text-gray-500 mb-6">You haven&apos;t booked any services yet.</p>
-            <Button onClick={() => router.push('/user/search')}>
-              Find a Service
-            </Button>
+                <p className="text-gray-500 mb-6">You haven&apos;t booked any services yet.</p>
+                <Button onClick={() => router.push('/user/search')}>
+                  Find a Service
+                </Button>
               </div>
             ) : (
-               <div className="divide-y divide-gray-100">
-                 {recentJobs.map((job) => (
-                   <motion.div 
-                      key={job.id} 
-                      className="py-4 first:pt-0 last:pb-0 hover:bg-gray-50/50 rounded-lg transition-colors px-2 -mx-2"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                   >
-                     <div className="flex items-center justify-between">
-                       <div className="flex items-start space-x-4">
-                         <div className="w-10 h-10 bg-indigo-50 rounded-full flex items-center justify-center">
-                           <Calendar className="w-5 h-5 text-indigo-500" />
-                         </div>
-                         <div>
-                           <h4 className="font-semibold text-gray-900">{job.title}</h4>
-                           <p className="text-sm text-gray-500 flex items-center mt-1">
-                             <Clock className="w-3 h-3 mr-1" />
-                             <FormattedDate date={job.createdAt} />
-                           </p>
-                         </div>
-                       </div>
-                       <div className="flex items-center space-x-4">
-                         <Badge variant={getStatusBadgeVariant(job.status)}>
-                           {job.status.replace('_', ' ').toUpperCase()}
-                         </Badge>
-                         <p className="font-medium text-gray-900 min-w-[80px] text-right">
-                           {formatCurrency(job.priceEstimate || 0)}
-                         </p>
-                         <Link href={`/user/jobs/${job.id}`}>
-                           <Button variant="ghost" size="sm" className="hover:bg-indigo-50 hover:text-indigo-600">
-                             <ChevronRight className="w-4 h-4" />
-                           </Button>
-                         </Link>
-                       </div>
-                     </div>
-                   </motion.div>
-                 ))}
-               </div>
+              <div className="divide-y divide-gray-100">
+                {recentJobs.map((job) => (
+                  <motion.div
+                    key={job.id}
+                    className="py-4 first:pt-0 last:pb-0 hover:bg-gray-50/50 rounded-lg transition-colors px-2 -mx-2"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-10 h-10 bg-indigo-50 rounded-full flex items-center justify-center">
+                          <Calendar className="w-5 h-5 text-indigo-500" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900">{job.title}</h4>
+                          <div className="flex flex-wrap text-sm text-gray-500 gap-x-3 mt-1">
+                            <span className="flex items-center">
+                              <Calendar className="w-3 h-3 mr-1" />
+                              <FormattedDate date={job.createdAt || (job as any).created_at} mode="date" />
+                            </span>
+                            <span className="flex items-center">
+                              <Clock className="w-3 h-3 mr-1" />
+                              <FormattedDate date={job.createdAt || (job as any).created_at} mode="time" />
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <Badge variant={getStatusBadgeVariant(job.status)}>
+                          {job.status.replace('_', ' ').toUpperCase()}
+                        </Badge>
+                        <p className="font-medium text-gray-900 min-w-[80px] text-right">
+                          {formatCurrency(job.priceEstimate || 0)}
+                        </p>
+                        <Link href={`/user/jobs/${job.id}`}>
+                          <Button variant="ghost" size="sm" className="hover:bg-indigo-50 hover:text-indigo-600">
+                            <ChevronRight className="w-4 h-4" />
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             )}
           </Card>
         </motion.div>

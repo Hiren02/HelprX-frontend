@@ -43,6 +43,7 @@ export interface WorkerStats {
     acceptanceRate: number;
     walletBalance: number;
     totalEarnings: number;
+    dailyEarnings: Array<{ date: string; earnings: number }>;
 }
 
 export type ServiceType =
