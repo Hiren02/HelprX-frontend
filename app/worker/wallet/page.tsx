@@ -55,7 +55,7 @@ export default function WorkerWalletPage() {
   if (isLoadingBalance || isLoadingTransactions) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-secondary-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
       </div>
     );
   }
@@ -74,12 +74,12 @@ export default function WorkerWalletPage() {
 
         {/* Balance Card */}
         <motion.div variants={itemVariants} className="grid md:grid-cols-3 gap-6 mb-8">
-          <Card className="md:col-span-2 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white border-none">
+          <Card className="md:col-span-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white border-none">
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-secondary-100 mb-2">Total Balance</p>
+                <p className="text-purple-100 mb-2">Total Balance</p>
                 <h2 className="text-4xl font-bold mb-4">{formatCurrency(balance?.data?.balance || 0)}</h2>
-                <div className="flex space-x-4 text-sm text-secondary-100">
+                <div className="flex space-x-4 text-sm text-purple-100">
                   <span>Pending: {formatCurrency(balance?.data?.pendingAmount || 0)}</span>
                   <span>•</span>
                   <span>Withdrawn: {formatCurrency(balance?.data?.totalWithdrawn || 0)}</span>
@@ -92,7 +92,7 @@ export default function WorkerWalletPage() {
             <div className="mt-8 pt-6 border-t border-white/10 flex gap-4">
               <Button
                 variant="secondary" // Should appear white/light on dark background
-                className="bg-white text-secondary-700 hover:bg-gray-100 border-none"
+                className="bg-white text-purple-700 hover:bg-gray-100 border-none"
                 onClick={() => setShowPayoutModal(true)}
               >
                 Request Payout
@@ -130,7 +130,7 @@ export default function WorkerWalletPage() {
                     <div className="flex items-center space-x-4">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === 'credit' ? 'bg-green-100 text-green-600' :
                         tx.type === 'debit' ? 'bg-red-100 text-red-600' :
-                          'bg-blue-100 text-blue-600' // Payout
+                          'bg-purple-100 text-purple-600' // Payout
                         }`}>
                         {tx.type === 'credit' ? <ArrowDownLeft className="w-5 h-5" /> :
                           tx.type === 'debit' ? <ArrowUpRight className="w-5 h-5" /> :

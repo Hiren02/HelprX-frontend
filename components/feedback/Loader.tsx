@@ -10,7 +10,7 @@ export const Loader: React.FC<{ size?: 'sm' | 'md' | 'lg'; className?: string }>
   return (
     <div className={`flex items-center justify-center ${className || ''}`}>
       <div
-        className={`${sizes[size]} animate-spin rounded-full border-4 border-gray-200 border-t-primary-600`}
+        className={`${sizes[size]} animate-spin rounded-full border-4 border-gray-200 border-t-purple-600`}
       />
     </div>
   );

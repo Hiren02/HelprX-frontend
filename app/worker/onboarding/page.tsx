@@ -188,7 +188,7 @@ export default function WorkerOnboardingPage() {
           <div className="flex justify-between items-center relative">
             <div className="absolute left-0 top-1/2 w-full h-0.5 bg-gray-200 -z-10" />
             <div
-              className="absolute left-0 top-1/2 h-0.5 bg-secondary-600 -z-10 transition-all duration-300"
+              className="absolute left-0 top-1/2 h-0.5 bg-purple-600 -z-10 transition-all duration-300"
               style={{ width: `${(currentStep / (STEPS.length - 1)) * 100}%` }}
             />
 
@@ -200,12 +200,12 @@ export default function WorkerOnboardingPage() {
               return (
                 <div key={step.id} className="flex flex-col items-center bg-gray-50 px-2">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${isActive ? 'bg-secondary-600 text-white shadow-lg scale-110' : 'bg-gray-200 text-gray-400'
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${isActive ? 'bg-purple-600 text-white shadow-lg scale-110' : 'bg-gray-200 text-gray-400'
                       }`}
                   >
                     {isCompleted ? <CheckCircle className="w-6 h-6" /> : <Icon className="w-5 h-5" />}
                   </div>
-                  <span className={`text-xs mt-2 font-medium ${isActive ? 'text-secondary-600' : 'text-gray-400'
+                  <span className={`text-xs mt-2 font-medium ${isActive ? 'text-purple-600' : 'text-gray-400'
                     }`}>
                     {step.title}
                   </span>
@@ -249,7 +249,7 @@ export default function WorkerOnboardingPage() {
                   <div>
                     <label className="block text-sm font-medium mb-1">Bio</label>
                     <textarea
-                      className="w-full border rounded-lg p-3 min-h-[100px] focus:ring-2 focus:ring-secondary-500 focus:outline-none"
+                      className="w-full border rounded-lg p-3 min-h-[100px] focus:ring-2 focus:ring-purple-500 focus:outline-none"
                       placeholder="Brief description of your services..."
                       value={profileData.bio}
                       onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
@@ -349,7 +349,7 @@ export default function WorkerOnboardingPage() {
                                 key={label}
                                 type="button"
                                 className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${addressData.label === label
-                                  ? 'bg-secondary-50 border-secondary-600 text-secondary-700 shadow-sm'
+                                  ? 'bg-purple-50 border-purple-600 text-purple-700 shadow-sm'
                                   : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                                   }`}
                                 onClick={() => setAddressData({ ...addressData, label })}
@@ -458,7 +458,7 @@ export default function WorkerOnboardingPage() {
                   Your professional profile and documents have been submitted for verification.
                   Please log in again to access your updated profile.
                 </p>
-                <Button onClick={handleFinish} size="lg" className="w-full md:w-auto bg-secondary-600 hover:bg-secondary-700">
+                <Button onClick={handleFinish} size="lg" className="w-full md:w-auto bg-purple-600 hover:bg-purple-700">
                   Go to Login
                 </Button>
               </motion.div>

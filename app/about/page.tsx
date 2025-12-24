@@ -29,11 +29,11 @@ export default function AboutPage() {
       <Header />
       <main className="flex-grow bg-white">
         {/* Hero Section */}
-        <section className="relative py-24 lg:py-32 bg-primary-900 text-white overflow-hidden">
+        <section className="relative py-24 lg:py-32 bg-purple-900 text-white overflow-hidden">
           {/* Animated Background elements */}
           <div className="absolute inset-0 z-0">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
           </div>
 
           <div className="container mx-auto px-4 relative z-10">
@@ -43,7 +43,7 @@ export default function AboutPage() {
               animate="visible"
               variants={staggerContainer}
             >
-              <motion.div variants={fadeInUp} className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 text-primary-100 font-medium text-sm mb-8 backdrop-blur-sm border border-white/10">
+              <motion.div variants={fadeInUp} className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 text-purple-100 font-medium text-sm mb-8 backdrop-blur-sm border border-white/10">
                 <Award className="w-4 h-4 mr-2" />
                 Our Story & Vision
               </motion.div>
@@ -56,20 +56,20 @@ export default function AboutPage() {
               </motion.h1>
               <motion.p
                 variants={fadeInUp}
-                className="text-xl md:text-2xl text-primary-100/90 leading-relaxed mb-10 max-w-3xl mx-auto"
+                className="text-xl md:text-2xl text-purple-100/90 leading-relaxed mb-10 max-w-3xl mx-auto"
               >
                 HelprX is more than a platform. We are a community-driven ecosystem dedicated to transparency, reliability, and empowering local professionals.
               </motion.p>
               <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-4">
                 <Link href="/user/register">
-                  <Button size="lg" className="rounded-full px-8 h-14 bg-white text-primary-900 hover:bg-primary-50">
+                  <Button size="lg" className="rounded-full px-8 h-14 bg-white text-purple-900 hover:bg-purple-50">
                     Get Started Today
                   </Button>
                 </Link>
-                <div className="flex items-center gap-4 px-6 text-primary-100 font-medium border-l border-white/20 ml-2">
+                <div className="flex items-center gap-4 px-6 text-purple-100 font-medium border-l border-white/20 ml-2">
                   <div className="flex -space-x-2">
                     {[1, 2, 3].map(i => (
-                      <div key={i} className={`w-8 h-8 rounded-full border-2 border-primary-900 bg-gray-200`} />
+                      <div key={i} className={`w-8 h-8 rounded-full border-2 border-purple-900 bg-gray-200`} />
                     ))}
                   </div>
                   <span className="text-sm">Trusted by 10k+ Neighbors</span>
@@ -90,11 +90,11 @@ export default function AboutPage() {
             >
               <h2 className="text-4xl font-bold text-gray-900 mb-8 relative inline-block">
                 Driven by a Simple Promise
-                <div className="absolute -bottom-2 left-0 w-20 h-1.5 bg-primary-600 rounded-full" />
+                <div className="absolute -bottom-2 left-0 w-20 h-1.5 bg-purple-600 rounded-full" />
               </h2>
               <div className="space-y-6">
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  At HelprX, we believe that finding reliable help shouldn&apos;t be a source of stress. We&apos;re revolutionizing the local service industry by creating a platform that prioritizes <span className="text-primary-600 font-semibold underline decoration-primary-200 underline-offset-4">trust, transparency</span>, and fair opportunities.
+                  At HelprX, we believe that finding reliable help shouldn&apos;t be a source of stress. We&apos;re revolutionizing the local service industry by creating a platform that prioritizes <span className="text-purple-600 font-semibold underline decoration-purple-200 underline-offset-4">trust, transparency</span>, and fair opportunities.
                 </p>
                 <p className="text-lg text-gray-600 leading-relaxed">
                   Founded in 2024, our journey began with a single question: "What if you could book a verified professional as easily as a ride-share?" Today, we serve thousands of households and support hundreds of independent pros.
@@ -213,10 +213,10 @@ export default function AboutPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-24 relative overflow-hidden bg-primary-600">
+        <section className="py-24 relative overflow-hidden bg-purple-600">
           <div className="absolute top-0 left-0 w-full h-full">
             <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-400/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-400/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
           </div>
 
           <div className="container mx-auto px-4 text-center relative z-10">
@@ -226,7 +226,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">Join the HelprX Revolution</h2>
-              <p className="text-xl text-primary-100 mb-12 max-w-2xl mx-auto">
+              <p className="text-xl text-purple-100 mb-12 max-w-2xl mx-auto">
                 Whether you need help or want to offer your skills, there&apos;s a place for you in our growing community.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-6">
@@ -236,7 +236,7 @@ export default function AboutPage() {
                   </Button>
                 </Link>
                 <Link href="/worker/register">
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto h-16 px-10 rounded-2xl text-lg font-bold border-white text-white hover:bg-white hover:text-primary-600 transition-all">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto h-16 px-10 rounded-2xl text-lg font-bold border-white text-white hover:bg-white hover:text-purple-600 transition-all">
                     Become a Pro
                   </Button>
                 </Link>

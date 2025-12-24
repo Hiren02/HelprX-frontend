@@ -86,12 +86,12 @@ export default function UserLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex items-center justify-center px-4">
       <div className="max-w-md w-full">
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-2">
-            <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-2xl">H</span>
             </div>
             <span className="text-3xl font-bold text-gray-900">HelprX</span>
@@ -128,10 +128,10 @@ export default function UserLoginPage() {
 
             <div className="flex items-center justify-between">
               <label className="flex items-center">
-                <input type="checkbox" className="rounded border-gray-300 text-primary-600 focus:ring-primary-500" />
+                <input type="checkbox" className="rounded border-gray-300 text-purple-600 focus:ring-purple-500" />
                 <span className="ml-2 text-sm text-gray-600">Remember me</span>
               </label>
-              <Link href="/user/forgot-password" className="text-sm text-primary-600 hover:text-primary-700">
+              <Link href="/user/forgot-password" className="text-sm text-purple-600 hover:text-purple-700">
                 Forgot password?
               </Link>
             </div>
@@ -144,7 +144,7 @@ export default function UserLoginPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Don&apos;t have an account?{' '}
-              <Link href="/user/register" className="text-primary-600 hover:text-primary-700 font-medium">
+              <Link href="/user/register" className="text-purple-600 hover:text-purple-700 font-medium">
                 Sign up
               </Link>
             </p>
@@ -153,7 +153,7 @@ export default function UserLoginPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Are you a service provider?{' '}
-              <Link href="/worker/login" className="text-secondary-600 hover:text-secondary-700 font-medium">
+              <Link href="/worker/login" className="text-purple-600 hover:text-purple-700 font-medium">
                 Worker Login
               </Link>
             </p>

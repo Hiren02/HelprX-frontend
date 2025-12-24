@@ -75,7 +75,7 @@ export default function HowItWorksPage() {
       <main className="flex-grow">
         {/* Hero Section */}
         <section className="relative bg-white py-24 overflow-hidden">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-primary-50/30 rounded-l-[100px] -z-10 hidden lg:block" />
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-purple-50/30 rounded-l-[100px] -z-10 hidden lg:block" />
           <div className="container mx-auto px-4">
             <div className="flex flex-col lg:flex-row items-center gap-16">
               <motion.div
@@ -84,18 +84,18 @@ export default function HowItWorksPage() {
                 animate="visible"
                 variants={fadeInUp}
               >
-                <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary-100 text-primary-700 font-medium text-sm mb-6">
+                <div className="inline-flex items-center px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-medium text-sm mb-6">
                   Simple. Transparent. Reliable.
                 </div>
                 <h1 className="text-5xl lg:text-7xl font-bold mb-6 text-gray-900 leading-tight">
-                  How <span className="text-primary-600">HelprX</span> <br />
+                  How <span className="text-purple-600">HelprX</span> <br />
                   Works for You
                 </h1>
                 <p className="text-xl text-gray-600 mb-8 max-w-xl">
                   We bridge the gap between skilled professionals and homeowners. Discover how easy it is to get things done or grow your business.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                  <Button size="lg" className="rounded-xl h-14 px-8 shadow-lg shadow-primary-500/20">
+                  <Button size="lg" className="rounded-xl h-14 px-8 shadow-lg shadow-purple-500/20">
                     Get Started
                   </Button>
                   <Button variant="outline" size="lg" className="rounded-xl h-14 px-8 border-2">
@@ -109,9 +109,9 @@ export default function HowItWorksPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="bg-gradient-to-tr from-primary-100 to-blue-50 rounded-3xl p-8 aspect-square flex items-center justify-center relative overflow-hidden">
+                <div className="bg-gradient-to-tr from-purple-100 to-purple-50 rounded-3xl p-8 aspect-square flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-white/40 backdrop-blur-3xl m-8 rounded-2xl border border-white/50 shadow-2xl flex flex-col items-center justify-center p-8 text-center">
-                    <div className="w-20 h-20 bg-primary-600 rounded-2xl flex items-center justify-center text-white mb-6 shadow-xl rotate-12">
+                    <div className="w-20 h-20 bg-purple-600 rounded-2xl flex items-center justify-center text-white mb-6 shadow-xl rotate-12">
                       <Calculator className="w-10 h-10" />
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">Smart Matching</h3>
@@ -121,14 +121,14 @@ export default function HowItWorksPage() {
                   <motion.div
                     animate={{ y: [0, -20, 0] }}
                     transition={{ duration: 4, repeat: Infinity }}
-                    className="absolute top-10 right-10 w-16 h-16 bg-white rounded-xl shadow-lg flex items-center justify-center text-secondary-500"
+                    className="absolute top-10 right-10 w-16 h-16 bg-white rounded-xl shadow-lg flex items-center justify-center text-purple-500"
                   >
                     <Star className="w-8 h-8 fill-current" />
                   </motion.div>
                   <motion.div
                     animate={{ y: [0, 20, 0] }}
                     transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-                    className="absolute bottom-10 left-10 w-16 h-16 bg-white rounded-xl shadow-lg flex items-center justify-center text-primary-500"
+                    className="absolute bottom-10 left-10 w-16 h-16 bg-white rounded-xl shadow-lg flex items-center justify-center text-purple-500"
                   >
                     <CheckSquare className="w-8 h-8" />
                   </motion.div>
@@ -143,7 +143,7 @@ export default function HowItWorksPage() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-20">
               <h2 className="text-4xl font-bold text-gray-900 mb-4">For Customers</h2>
-              <div className="w-24 h-1.5 bg-primary-600 mx-auto rounded-full" />
+              <div className="w-24 h-1.5 bg-purple-600 mx-auto rounded-full" />
               <p className="text-gray-600 mt-6 text-lg max-w-2xl mx-auto">
                 Getting help is just a few clicks away. Experience the most seamless home service journey.
               </p>
@@ -160,12 +160,12 @@ export default function HowItWorksPage() {
                 <motion.div key={i} className="relative z-10 text-center" variants={fadeInUp}>
                   <div className="relative mb-8 group">
                     <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm group-hover:shadow-xl group-hover:-translate-y-2 transition-all duration-300 border border-gray-100">
-                      <step.icon className="w-10 h-10 text-primary-600" />
+                      <step.icon className="w-10 h-10 text-purple-600" />
                     </div>
                     {i < steps.length - 1 && (
                       <div className="hidden md:block absolute top-10 left-[calc(50%+4rem)] w-[calc(100%-8rem)] border-t-2 border-dashed border-gray-200" />
                     )}
-                    <div className="absolute -top-3 -right-3 w-8 h-8 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold shadow-lg border-4 border-white">
+                    <div className="absolute -top-3 -right-3 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold shadow-lg border-4 border-white">
                       {i + 1}
                     </div>
                   </div>
@@ -179,11 +179,11 @@ export default function HowItWorksPage() {
 
         {/* For Professionals Section */}
         <section className="py-24 bg-gray-900 text-white overflow-hidden relative">
-          <div className="absolute inset-0 bg-primary-600/5 -z-0" />
+          <div className="absolute inset-0 bg-purple-600/5 -z-0" />
           <div className="container mx-auto px-4 relative z-10">
             <div className="text-center mb-20">
               <h2 className="text-4xl font-bold mb-4">For Professionals</h2>
-              <div className="w-24 h-1.5 bg-secondary-500 mx-auto rounded-full" />
+              <div className="w-24 h-1.5 bg-purple-500 mx-auto rounded-full" />
               <p className="text-gray-400 mt-6 text-lg max-w-2xl mx-auto">
                 Turn your skills into earnings. We provide the tools and clients you need to succeed.
               </p>
@@ -198,7 +198,7 @@ export default function HowItWorksPage() {
             >
               {workerSteps.map((step, i) => (
                 <motion.div key={i} className="text-center" variants={fadeInUp}>
-                  <div className="w-20 h-20 bg-gray-800 rounded-3xl flex items-center justify-center mx-auto mb-8 border border-gray-700 hover:border-secondary-500/50 transition-colors group">
+                  <div className="w-20 h-20 bg-gray-800 rounded-3xl flex items-center justify-center mx-auto mb-8 border border-gray-700 hover:border-purple-500/50 transition-colors group">
                     <step.icon className="w-10 h-10 text-secondary-400 group-hover:scale-110 transition-transform" />
                   </div>
                   <h3 className="text-xl font-bold mb-4">{step.title}</h3>
@@ -214,7 +214,7 @@ export default function HowItWorksPage() {
               viewport={{ once: true }}
             >
               <Link href="/worker/register">
-                <Button variant="secondary" size="lg" className="rounded-xl h-14 px-10 shadow-xl shadow-secondary-500/10 group">
+                <Button variant="secondary" size="lg" className="rounded-xl h-14 px-10 shadow-xl shadow-purple-500/10 group">
                   Start Earning Today
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>

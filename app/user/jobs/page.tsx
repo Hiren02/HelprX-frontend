@@ -154,11 +154,11 @@ function UserJobsContent() {
                     show: { opacity: 1, y: 0 }
                   }}
                 >
-                  <Card hover className="group-hover:border-primary-200 transition-colors border-gray-100 shadow-sm hover:shadow-md">
+                  <Card hover className="group-hover:border-purple-200 transition-colors border-gray-100 shadow-sm hover:shadow-md">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex items-center justify-between md:justify-start gap-3 mb-2">
-                          <h3 className="font-semibold text-lg group-hover:text-primary-600 transition-colors">
+                          <h3 className="font-semibold text-lg group-hover:text-purple-600 transition-colors">
                             {job.title}
                           </h3>
                           {getStatusBadge(job.status)}
@@ -189,7 +189,7 @@ function UserJobsContent() {
                         <span className="text-lg font-bold text-gray-900">
                           {job.priceEstimate ? formatCurrency(job.priceEstimate) : <span className="text-sm text-gray-500 font-normal">Pending Quote</span>}
                         </span>
-                        <Button variant="outline" size="sm" className="w-full md:w-auto hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200">
+                        <Button variant="outline" size="sm" className="w-full md:w-auto hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200">
                           View Details
                         </Button>
                       </div>
@@ -216,7 +216,7 @@ function UserJobsContent() {
                 : "No completed job history found."}
             </p>
             {activeTab === 'active' && (
-              <Button onClick={() => router.push('/user/search')} className="shadow-lg shadow-primary-500/20">
+              <Button onClick={() => router.push('/user/search')} className="shadow-lg shadow-purple-500/20">
                 Book a Service
               </Button>
             )}

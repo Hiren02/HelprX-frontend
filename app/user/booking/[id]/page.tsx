@@ -5,12 +5,10 @@ import { useRouter, useParams } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Loader } from '@/components/feedback/Loader';
-import { Rating } from '@/components/feedback/Rating';
-import { User, MapPin, Clock, Shield, CheckCircle } from 'lucide-react';
+import { MapPin, Clock } from 'lucide-react';
 import { useJob } from '@/lib/hooks/useJobs';
 import { useMatching } from '@/lib/hooks/useMatching';
 import { formatCurrency } from '@/lib/utils/currency';
-import { MatchWorker } from '@/lib/api/services/matching';
 import toast from 'react-hot-toast';
 
 export default function BookingPage() {
@@ -21,7 +19,6 @@ export default function BookingPage() {
   const { findWorkersAsync, isFinding, matchResults } = useMatching();
 
   const [matchingStep, setMatchingStep] = useState<'searching' | 'found' | 'confirming'>('searching');
-  const [selectedWorker, setSelectedWorker] = useState<MatchWorker | null>(null);
 
   useEffect(() => {
     if (jobId && matchingStep === 'searching') {
@@ -73,10 +70,10 @@ export default function BookingPage() {
         <div className="md:col-span-2 space-y-6">
           <Card className="text-center py-12">
             <div className="relative w-24 h-24 mx-auto mb-6">
-              <div className="absolute inset-0 border-4 border-blue-100 rounded-full animate-ping"></div>
-              <div className="absolute inset-0 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+              <div className="absolute inset-0 border-4 border-purple-100 rounded-full animate-ping"></div>
+              <div className="absolute inset-0 border-4 border-purple-500 rounded-full border-t-transparent animate-spin"></div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <Clock className="w-8 h-8 text-blue-500" />
+                <Clock className="w-8 h-8 text-purple-500" />
               </div>
             </div>
             <h2 className="text-xl font-semibold mb-2">Waiting for a professional...</h2>

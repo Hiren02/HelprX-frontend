@@ -57,7 +57,7 @@ export default function WorkerDashboardPage() {
   if (isLoadingProfile || isLoadingStats) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-secondary-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
       </div>
     );
   }
@@ -89,17 +89,17 @@ export default function WorkerDashboardPage() {
             <button
               onClick={toggleAvailability}
               disabled={updateAvailability.isPending}
-              className={`relative inline-flex h-12 w-24 items-center rounded-full transition-colors ${isOnline ? 'bg-secondary-600' : 'bg-gray-300'
+              className={`relative inline-flex h-12 w-24 items-center rounded-full transition-colors shadow-inner ${isOnline ? 'bg-gradient-to-r from-purple-500 to-purple-600' : 'bg-gray-300'
                 } ${updateAvailability.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <span
-                className={`inline-block h-10 w-10 transform rounded-full bg-white transition-transform ${isOnline ? 'translate-x-12' : 'translate-x-1'
+                className={`inline-block h-10 w-10 transform rounded-full bg-white shadow-lg transition-transform ${isOnline ? 'translate-x-12' : 'translate-x-1'
                   }`}
               >
                 {updateAvailability.isPending ? (
                   <Loader2 className="w-6 h-6 text-gray-400 m-2 animate-spin" />
                 ) : isOnline ? (
-                  <Power className="w-6 h-6 text-secondary-600 m-2" />
+                  <Power className="w-6 h-6 text-purple-600 m-2" />
                 ) : (
                   <PowerOff className="w-6 h-6 text-gray-400 m-2" />
                 )}
@@ -112,7 +112,7 @@ export default function WorkerDashboardPage() {
         <Card className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-gray-900 flex items-center">
-              <TrendingUp className=" h-5 mr-2 text-secondary-600" />
+              <TrendingUp className="w-5 h-5 mr-2 text-purple-600" />
               Analytics & Performance
             </h2>
             <div className="flex items-center gap-2">
@@ -169,7 +169,7 @@ export default function WorkerDashboardPage() {
                         {formatCurrency(dayData.earnings)}
                       </div>
                       <div
-                        className="w-full bg-secondary-400 hover:bg-secondary-500 rounded-t-sm transition-all duration-300"
+                        className="w-full bg-gradient-to-t from-purple-500 to-purple-400 hover:from-purple-600 hover:to-purple-500 rounded-t-sm transition-all duration-300 shadow-sm"
                         style={{ height: `${height}%`, minHeight: dayData.earnings > 0 ? '4px' : '0px' }}
                       ></div>
                       <span className="text-[10px] text-gray-500 mt-2 truncate max-w-full text-center">{label}</span>
@@ -197,7 +197,7 @@ export default function WorkerDashboardPage() {
               <div className="bg-white p-3 rounded border flex justify-between items-center">
                 <span className="text-gray-600 text-sm">Acceptance Rate</span>
                 <div className="text-right">
-                  <span className="font-bold text-secondary-600">
+                  <span className="font-bold text-purple-600">
                     {(stats?.data?.acceptanceRate || 0) * 100}%
                   </span>
                 </div>
@@ -235,8 +235,8 @@ export default function WorkerDashboardPage() {
                 <p className="text-gray-600 text-sm mb-1">Active Jobs</p>
                 <p className="text-2xl font-bold text-gray-900">{stats?.data?.activeJobs || 0}</p>
               </div>
-              <div className="w-12 h-12 bg-secondary-100 rounded-lg flex items-center justify-center">
-                <Briefcase className="w-6 h-6 text-secondary-600" />
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg flex items-center justify-center shadow-sm">
+                <Briefcase className="w-6 h-6 text-purple-600" />
               </div>
             </div>
           </Card>
@@ -259,8 +259,8 @@ export default function WorkerDashboardPage() {
                 <p className="text-gray-600 text-sm mb-1">Completed</p>
                 <p className="text-2xl font-bold text-gray-900">{stats?.data?.completedJobs || profile?.data?.completedJobs || 0}</p>
               </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-purple-600" />
+              <div className="w-12 h-12 bg-gradient-to-br from-accent-100 to-accent-200 rounded-lg flex items-center justify-center shadow-sm">
+                <TrendingUp className="w-6 h-6 text-accent-600" />
               </div>
             </div>
           </Card>
@@ -269,10 +269,10 @@ export default function WorkerDashboardPage() {
         {/* Quick Actions */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           <Link href="/worker/jobs">
-            <Card hover className="cursor-pointer">
+            <Card hover className="cursor-pointer bg-gradient-to-br from-white to-purple-50/30 border-purple-100 hover:border-purple-200 transition-all">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-secondary-100 rounded-lg flex items-center justify-center">
-                  <Briefcase className="w-6 h-6 text-secondary-600" />
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg flex items-center justify-center shadow-sm">
+                  <Briefcase className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg">Job Inbox</h3>
@@ -315,7 +315,7 @@ export default function WorkerDashboardPage() {
                     <p className="text-sm text-gray-600">{formatDateTime(job.createdAt || (job as any).created_at)}</p>
                   </div>
                   <div className="text-right">
-                    <Badge variant={job.status === 'completed' ? 'success' : job.status === 'in_progress' ? 'secondary' : 'default'}>
+                    <Badge variant={job.status === 'completed' ? 'success' : job.status === 'in_progress' ? 'purple' : 'default'}>
                       {job.status.replace('_', ' ')}
                     </Badge>
                   </div>

@@ -3,13 +3,10 @@
 import { useParams, useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { Badge } from '@/components/ui/Badge';
-import { ArrowLeft, MapPin, Clock, Navigation, CheckCircle, AlertTriangle, Loader2 } from 'lucide-react';
+import { ArrowLeft, MapPin, Clock, Navigation, CheckCircle, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useWorkerJob, useStartJob, useCompleteJob, useAcceptJob, useDeclineJob } from '@/lib/hooks/useWorker';
 import { formatCurrency } from '@/lib/utils/currency';
-import { formatDateTime } from '@/lib/utils/date';
-import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 export default function JobExecutionPage() {
@@ -61,7 +58,7 @@ export default function JobExecutionPage() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-secondary-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
       </div>
     );
   }
@@ -100,8 +97,8 @@ export default function JobExecutionPage() {
         </header>
 
         {/* Status Banner */}
-        <Card className={`mb-6 ${job.status === 'assigned' ? 'bg-secondary-600' :
-          job.status === 'in_progress' ? 'bg-secondary-700' :
+        <Card className={`mb-6 ${job.status === 'assigned' ? 'bg-purple-600' :
+          job.status === 'in_progress' ? 'bg-purple-700' :
             job.status === 'completed' ? 'bg-green-600' : 'bg-gray-600'
           } text-white border-none`}>
           <div className="flex items-center justify-between">
@@ -165,7 +162,7 @@ export default function JobExecutionPage() {
                     <label className="text-sm text-gray-500">Attachments</label>
                     <div className="flex gap-2 mt-2">
                       {job.attachments.map((url, i) => (
-                        <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="text-secondary-600 hover:underline">
+                        <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline">
                           View Attachment {i + 1}
                         </a>
                       ))}

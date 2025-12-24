@@ -191,7 +191,7 @@ export function AddressAutocomplete({ onSelect, placeholder = "Search for your l
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
             <input
               type="text"
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all text-sm"
+              className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all text-sm"
               placeholder={placeholder}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -199,7 +199,7 @@ export function AddressAutocomplete({ onSelect, placeholder = "Search for your l
             />
             {isLoading && (
               <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                <Loader2 className="w-4 h-4 animate-spin text-primary-500" />
+                <Loader2 className="w-4 h-4 animate-spin text-purple-500" />
               </div>
             )}
           </div>
@@ -225,7 +225,7 @@ export function AddressAutocomplete({ onSelect, placeholder = "Search for your l
         <Button 
           type="button" 
           variant="outline" 
-          className="w-full border-dashed text-primary-600 hover:text-primary-700 hover:bg-primary-50 border-primary-200"
+          className="w-full border-dashed text-purple-600 hover:text-purple-700 hover:bg-purple-50 border-purple-200"
           onClick={() => {
             if (!showMap) {
                detectLocation(true);
@@ -246,10 +246,10 @@ export function AddressAutocomplete({ onSelect, placeholder = "Search for your l
               <button
                 key={index}
                 type="button"
-                className="w-full px-4 py-2.5 text-left hover:bg-primary-50 flex items-start gap-3 transition-colors group"
+                className="w-full px-4 py-2.5 text-left hover:bg-purple-50 flex items-start gap-3 transition-colors group"
                 onClick={() => handleSelect(item)}
               >
-                <MapPin className="w-4 h-4 text-gray-400 mt-0.5 group-hover:text-primary-500 shrink-0" />
+                <MapPin className="w-4 h-4 text-gray-400 mt-0.5 group-hover:text-purple-500 shrink-0" />
                 <div className="overflow-hidden">
                   <p className="text-sm font-medium text-gray-900 truncate">{item.display_name.split(',')[0]}</p>
                   <p className="text-xs text-gray-500 truncate">{item.display_name}</p>

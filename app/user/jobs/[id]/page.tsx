@@ -79,7 +79,7 @@ export default function JobDetailsPage() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
       </div>
     );
   }
@@ -114,8 +114,8 @@ export default function JobDetailsPage() {
         {/* Status Banner */}
         <Card className={`mb-6 text-white ${job.status === 'completed' ? 'bg-green-600' :
           job.status === 'cancelled' ? 'bg-red-600' :
-            job.status === 'in_progress' ? 'bg-blue-600' :
-              job.status === 'assigned' ? 'bg-secondary-600' :
+            job.status === 'in_progress' ? 'bg-purple-600' :
+              job.status === 'assigned' ? 'bg-purple-600' :
                 'bg-gray-600' // created, matching
           }`}>
           <div className="flex items-center justify-between">
@@ -146,7 +146,7 @@ export default function JobDetailsPage() {
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-600">Price</p>
-                <p className="font-semibold text-lg text-primary-600">
+                <p className="font-semibold text-lg text-purple-600">
                   {job.finalPrice ? formatCurrency(job.finalPrice) : (
                     <span>{formatCurrency(job.priceEstimate || 0)} <span className='text-sm font-normal text-gray-500'>(Est.)</span></span>
                   )}
@@ -169,7 +169,7 @@ export default function JobDetailsPage() {
             <h3 className="text-lg font-semibold mb-4">Worker Details</h3>
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center overflow-hidden">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center overflow-hidden">
                   {job.assignedWorker.profileImage ? (
                     <img
                       src={job.assignedWorker.profileImage}
@@ -177,7 +177,7 @@ export default function JobDetailsPage() {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <User className="w-8 h-8 text-secondary-600" />
+                    <User className="w-8 h-8 text-purple-600" />
                   )}
                 </div>
                 <div>
@@ -198,12 +198,12 @@ export default function JobDetailsPage() {
             </div>
           </Card>
         ) : job.status === 'matching' ? (
-          <Card className="mb-6 border-dashed border-2 border-secondary-200 bg-secondary-50">
+          <Card className="mb-6 border-dashed border-2 border-purple-200 bg-purple-50">
             <div className="flex items-center justify-center py-6 text-center">
               <div>
-                <Loader2 className="w-8 h-8 animate-spin text-secondary-600 mx-auto mb-2" />
-                <p className="text-secondary-700 font-medium">Looking for a professional...</p>
-                <p className="text-sm text-secondary-500">We are matching you with the best worker nearby.</p>
+                <Loader2 className="w-8 h-8 animate-spin text-purple-600 mx-auto mb-2" />
+                <p className="text-purple-700 font-medium">Looking for a professional...</p>
+                <p className="text-sm text-purple-500">We are matching you with the best worker nearby.</p>
               </div>
             </div>
           </Card>
@@ -254,8 +254,8 @@ export default function JobDetailsPage() {
             {/* If we had acceptedAt or startedAt, we could show more steps */}
             {job.status === 'in_progress' && (
               <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-blue-600" />
+                <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                  <Clock className="w-5 h-5 text-purple-600" />
                 </div>
                 <div>
                   <p className="font-medium">In Progress</p>
@@ -301,7 +301,7 @@ export default function JobDetailsPage() {
           )}
 
           {jobRating?.data && (
-            <Card className="w-full bg-secondary-50 border-secondary-100">
+            <Card className="w-full bg-purple-50 border-purple-100">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="font-semibold text-secondary-900">Your Rating</h4>
                 <div className="flex items-center">

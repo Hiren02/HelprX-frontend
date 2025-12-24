@@ -192,7 +192,7 @@ export default function WorkerJobsPage() {
             <input
               type="text"
               placeholder="Search jobs..."
-              className="w-full pl-9 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-500"
+              className="w-full pl-9 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -211,7 +211,7 @@ export default function WorkerJobsPage() {
         {/* Job List */}
         {isLoading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-secondary-600" />
+            <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
           </div>
         ) : (
           <div className="space-y-4">
@@ -229,7 +229,7 @@ export default function WorkerJobsPage() {
                       <p className="text-gray-600 mb-3 line-clamp-2">{job.description}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-2xl font-bold text-secondary-600">
+                      <p className="text-2xl font-bold text-purple-600">
                         {formatCurrency(job.priceEstimate || 0)}
                       </p>
                       <p className="text-sm text-gray-500">Estimated</p>
@@ -246,7 +246,7 @@ export default function WorkerJobsPage() {
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${job.address.addressLine || ''} ${job.address.city || ''} ${job.address.state || ''} ${job.address.pincode || ''}`)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm text-secondary-600 hover:underline"
+                          className="text-sm text-purple-600 hover:underline"
                           onClick={(e) => e.stopPropagation()}
                         >
                           View Location
@@ -266,7 +266,7 @@ export default function WorkerJobsPage() {
                       <Button
                         onClick={() => handleAcceptJob(job.id)}
                         disabled={acceptJob.isPending}
-                        className="flex-1 bg-secondary-600 hover:bg-secondary-700"
+                        className="flex-1 bg-purple-600 hover:bg-purple-700"
                       >
                         {acceptJob.isPending ? 'Accepting...' : 'Accept Job'}
                       </Button>
@@ -298,7 +298,7 @@ export default function WorkerJobsPage() {
                         <Button
                           onClick={() => handleStartJob(job.id)}
                           disabled={startJob.isPending}
-                          className="flex-1 bg-secondary-600 hover:bg-secondary-700"
+                          className="flex-1 bg-purple-600 hover:bg-purple-700"
                         >
                           {startJob.isPending ? 'Starting...' : 'Start Job'}
                         </Button>
@@ -338,7 +338,7 @@ export default function WorkerJobsPage() {
               <div className="text-center py-12 bg-white rounded-lg border border-dashed">
                 <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-500">No jobs match your filters</p>
-                <Button variant="ghost" onClick={clearFilters} className="mt-2 text-secondary-600 hover:text-secondary-700 hover:bg-transparent">
+                <Button variant="ghost" onClick={clearFilters} className="mt-2 text-purple-600 hover:text-purple-700 hover:bg-transparent">
                   Clear all filters
                 </Button>
               </div>

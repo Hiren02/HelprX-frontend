@@ -102,11 +102,11 @@ export default function UserRegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex items-center justify-center px-4 py-12">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-2">
-            <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-2xl">H</span>
             </div>
             <span className="text-3xl font-bold text-gray-900">HelprX</span>
@@ -180,7 +180,7 @@ export default function UserRegisterPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}
-              <Link href="/user/login" className="text-primary-600 hover:text-primary-700 font-medium">
+              <Link href="/user/login" className="text-purple-600 hover:text-purple-700 font-medium">
                 Sign in
               </Link>
             </p>
@@ -189,7 +189,7 @@ export default function UserRegisterPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Want to provide services?{' '}
-              <Link href="/worker/register" className="text-secondary-600 hover:text-secondary-700 font-medium">
+              <Link href="/worker/register" className="text-purple-600 hover:text-purple-700 font-medium">
                 Register as Worker
               </Link>
             </p>

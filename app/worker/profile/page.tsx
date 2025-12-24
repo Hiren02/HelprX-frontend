@@ -185,7 +185,7 @@ export default function WorkerProfilePage() {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <Loader2 className="w-8 h-8 animate-spin text-secondary-600" />
+                <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
             </div>
         );
     }
@@ -228,7 +228,7 @@ export default function WorkerProfilePage() {
                             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                                 {/* Profile Image with Upload */}
                                 <div className="relative group">
-                                    <div className="w-24 h-24 bg-secondary-100 rounded-full flex items-center justify-center text-secondary-600 overflow-hidden border-4 border-white shadow-md">
+                                    <div className="w-24 h-24 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 overflow-hidden border-4 border-white shadow-md">
                                         {worker?.profileImage ? (
                                             <img src={worker.profileImage} alt={worker.name} className="w-full h-full object-cover" />
                                         ) : (
@@ -250,7 +250,7 @@ export default function WorkerProfilePage() {
                                     />
                                     {updateImage.isPending && (
                                         <div className="absolute inset-0 bg-white/60 rounded-full flex items-center justify-center">
-                                            <Loader2 className="w-6 h-6 animate-spin text-secondary-600" />
+                                            <Loader2 className="w-6 h-6 animate-spin text-purple-600" />
                                         </div>
                                     )}
                                 </div>
@@ -297,14 +297,14 @@ export default function WorkerProfilePage() {
                             <div className="mt-8 border-t pt-6">
                                 <div className="flex items-center justify-between mb-4">
                                     <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                                        <User className="w-4 h-4 text-secondary-600" />
+                                        <User className="w-4 h-4 text-purple-600" />
                                         About Me
                                     </h3>
                                 </div>
                                 {isEditing ? (
                                     <textarea
                                         {...register('bio')}
-                                        className="w-full border rounded-lg p-3 min-h-[120px] focus:ring-2 focus:ring-secondary-500/20 focus:border-secondary-500 focus:outline-none transition-all"
+                                        className="w-full border rounded-lg p-3 min-h-[120px] focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 focus:outline-none transition-all"
                                         placeholder="Tell customers about your expertise, background and what makes you the right choice for the job..."
                                     />
                                 ) : (
@@ -318,10 +318,10 @@ export default function WorkerProfilePage() {
                         <Card className="p-6">
                             <div className="flex items-center justify-between mb-6">
                                 <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                                    <Star className="w-4 h-4 text-secondary-600" />
+                                    <Star className="w-4 h-4 text-purple-600" />
                                     Professional Skills
                                 </h3>
-                                <Button variant="ghost" size="sm" onClick={() => setShowSkillsModal(true)} className="text-secondary-600">
+                                <Button variant="ghost" size="sm" onClick={() => setShowSkillsModal(true)} className="text-purple-600">
                                     <Edit className="w-4 h-4 mr-1" />
                                     Manage
                                 </Button>
@@ -329,13 +329,13 @@ export default function WorkerProfilePage() {
                             <div className="flex flex-wrap gap-2">
                                 {worker?.skills && worker.skills.length > 0 ? (
                                     worker.skills.map((skill: any) => (
-                                        <div key={skill.id} className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-lg hover:border-secondary-200 transition-colors">
+                                        <div key={skill.id} className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-lg hover:border-purple-200 transition-colors">
                                             <span className="text-sm font-medium capitalize text-gray-700">{skill.skill}</span>
                                             <div className="flex items-center gap-0.5">
                                                 {[...Array(4)].map((_, i) => (
                                                     <div
                                                         key={i}
-                                                        className={`w-1.5 h-1.5 rounded-full ${i < skill.level ? 'bg-secondary-500' : 'bg-gray-200'}`}
+                                                        className={`w-1.5 h-1.5 rounded-full ${i < skill.level ? 'bg-purple-500' : 'bg-gray-200'}`}
                                                     />
                                                 ))}
                                             </div>
@@ -353,7 +353,7 @@ export default function WorkerProfilePage() {
                         <Card className="p-6">
                             <div className="flex items-center justify-between mb-6">
                                 <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                                    <MapPin className="w-4 h-4 text-secondary-600" />
+                                    <MapPin className="w-4 h-4 text-purple-600" />
                                     Service Address
                                 </h3>
                                 {!isLoadingAddresses && (!addresses?.data || addresses.data.length === 0) && (
@@ -365,7 +365,7 @@ export default function WorkerProfilePage() {
                             </div>
                             <div className="space-y-3">
                                 {isLoadingAddresses ? (
-                                    <div className="flex justify-center p-4"><Loader2 className="w-6 h-6 animate-spin text-primary-500" /></div>
+                                    <div className="flex justify-center p-4"><Loader2 className="w-6 h-6 animate-spin text-purple-500" /></div>
                                 ) : addresses?.data && addresses.data.length > 0 ? (
                                     addresses.data.map((addr: any) => (
                                         <div key={addr.id} className="flex items-start justify-between p-4 bg-gray-50 border border-gray-100 rounded-xl hover:shadow-sm transition-shadow">
@@ -379,7 +379,7 @@ export default function WorkerProfilePage() {
                                                     <p className="text-xs text-gray-500 mt-1">{addr.city}, {addr.state} - {addr.pincode}</p>
                                                 </div>
                                             </div>
-                                            <Button variant="ghost" size="sm" onClick={() => openEditAddress(addr)} className="text-secondary-600">
+                                            <Button variant="ghost" size="sm" onClick={() => openEditAddress(addr)} className="text-purple-600">
                                                 <Edit className="w-4 h-4 mr-1" />
                                                 Edit
                                             </Button>
@@ -398,13 +398,13 @@ export default function WorkerProfilePage() {
                     <div className="space-y-6">
                         <Card className="p-6">
                             <h3 className="font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                <Mail className="w-4 h-4 text-secondary-600" />
+                                <Mail className="w-4 h-4 text-purple-600" />
                                 Contact Info
                             </h3>
                             <div className="space-y-5">
                                 <div className="flex items-center gap-4 group">
-                                    <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-secondary-50 transition-colors">
-                                        <Phone className="w-4 h-4 text-gray-400 group-hover:text-secondary-500" />
+                                    <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-purple-50 transition-colors">
+                                        <Phone className="w-4 h-4 text-gray-400 group-hover:text-purple-500" />
                                     </div>
                                     <div>
                                         <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Phone</p>
@@ -413,8 +413,8 @@ export default function WorkerProfilePage() {
                                 </div>
                                 {worker?.email && (
                                     <div className="flex items-center gap-4 group">
-                                        <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-secondary-50 transition-colors">
-                                            <Mail className="w-4 h-4 text-gray-400 group-hover:text-secondary-500" />
+                                        <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-purple-50 transition-colors">
+                                            <Mail className="w-4 h-4 text-gray-400 group-hover:text-purple-500" />
                                         </div>
                                         <div className="max-w-[140px] truncate">
                                             <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Email</p>
@@ -423,8 +423,8 @@ export default function WorkerProfilePage() {
                                     </div>
                                 )}
                                 <div className="flex items-center gap-4 group">
-                                    <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-secondary-50 transition-colors">
-                                        <Globe className="w-4 h-4 text-gray-400 group-hover:text-secondary-500" />
+                                    <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-purple-50 transition-colors">
+                                        <Globe className="w-4 h-4 text-gray-400 group-hover:text-purple-500" />
                                     </div>
                                     <div>
                                         <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Region</p>
@@ -437,7 +437,7 @@ export default function WorkerProfilePage() {
                         </Card>
 
                         <Card className="p-6 overflow-hidden relative">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-primary-50 rounded-bl-full -z-0 opacity-50" />
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-purple-50 rounded-bl-full -z-0 opacity-50" />
                             <h3 className="font-bold text-gray-900 mb-6 relative z-10">Performance</h3>
                             <div className="space-y-6 relative z-10">
                                 <div className="flex items-center justify-between">
@@ -451,8 +451,8 @@ export default function WorkerProfilePage() {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
-                                        <div className="p-2 bg-secondary-50 rounded-lg">
-                                            <Briefcase className="w-4 h-4 text-secondary-500" />
+                                        <div className="p-2 bg-purple-50 rounded-lg">
+                                            <Briefcase className="w-4 h-4 text-purple-500" />
                                         </div>
                                         <span className="text-sm font-medium text-gray-600">Jobs Resolved</span>
                                     </div>
@@ -479,7 +479,7 @@ export default function WorkerProfilePage() {
                                 <select
                                     value={s.skill}
                                     onChange={(e) => handleSkillChange(idx, 'skill', e.target.value)}
-                                    className="w-full bg-white border rounded-md p-2 text-sm focus:ring-2 focus:ring-primary-500/20 focus:outline-none"
+                                    className="w-full bg-white border rounded-md p-2 text-sm focus:ring-2 focus:ring-purple-500/20 focus:outline-none"
                                 >
                                     {SERVICE_TYPES.map(type => (
                                         <option key={type} value={type}>{type.replace('_', ' ').toUpperCase()}</option>
@@ -491,7 +491,7 @@ export default function WorkerProfilePage() {
                                 <select
                                     value={s.level}
                                     onChange={(e) => handleSkillChange(idx, 'level', parseInt(e.target.value))}
-                                    className="w-full bg-white border rounded-md p-2 text-sm focus:ring-2 focus:ring-primary-500/20 focus:outline-none"
+                                    className="w-full bg-white border rounded-md p-2 text-sm focus:ring-2 focus:ring-purple-500/20 focus:outline-none"
                                 >
                                     <option value={1}>Beginner</option>
                                     <option value={2}>Intermediate</option>

@@ -66,10 +66,10 @@ export default function UserDashboardPage() {
         {/* Quick Actions */}
         <motion.div variants={itemVariants} className="grid md:grid-cols-2 gap-6 mb-8">
           <Link href="/user/search">
-            <Card hover className="h-full bg-gradient-to-br from-white to-primary-50/30 border-primary-100">
+            <Card hover className="h-full bg-gradient-to-br from-white via-purple-50/30 to-accent-50/20 border-purple-100 hover:border-purple-200 transition-all">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center shadow-sm">
-                  <Plus className="w-6 h-6 text-primary-600" />
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center shadow-sm">
+                  <Plus className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg text-gray-900">New Service Request</h3>
@@ -80,10 +80,10 @@ export default function UserDashboardPage() {
           </Link>
 
           <Link href="/user/profile">
-            <Card hover className="h-full bg-gradient-to-br from-white to-secondary-50/30 border-secondary-100">
+            <Card hover className="h-full bg-gradient-to-br from-white via-accent-50/30 to-purple-50/20 border-accent-100 hover:border-accent-200 transition-all">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-secondary-100 rounded-xl flex items-center justify-center shadow-sm">
-                  <MapPin className="w-6 h-6 text-secondary-600" />
+                <div className="w-12 h-12 bg-gradient-to-br from-accent-100 to-accent-200 rounded-xl flex items-center justify-center shadow-sm">
+                  <MapPin className="w-6 h-6 text-accent-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg text-gray-900">Manage Addresses</h3>
@@ -102,16 +102,16 @@ export default function UserDashboardPage() {
               <p className="text-4xl font-bold text-gray-900">{totalJobs}</p>
             </div>
           </Card>
-          <Card className="bg-white/50 backdrop-blur-sm">
+          <Card className="bg-gradient-to-br from-white to-purple-50/30 backdrop-blur-sm border-purple-100">
             <div className="text-center">
               <p className="text-gray-600 mb-2 font-medium">Completed</p>
-              <p className="text-4xl font-bold text-green-600">{completedJobs}</p>
+              <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-accent-600 bg-clip-text text-transparent">{completedJobs}</p>
             </div>
           </Card>
-          <Card className="bg-white/50 backdrop-blur-sm">
+          <Card className="bg-gradient-to-br from-white to-accent-50/30 backdrop-blur-sm border-accent-100">
             <div className="text-center">
               <p className="text-gray-600 mb-2 font-medium">Active</p>
-              <p className="text-4xl font-bold text-blue-600">{activeJobs}</p>
+              <p className="text-4xl font-bold bg-gradient-to-r from-accent-600 to-purple-600 bg-clip-text text-transparent">{activeJobs}</p>
             </div>
           </Card>
         </motion.div>
@@ -130,7 +130,7 @@ export default function UserDashboardPage() {
           <Card className="border-gray-100 shadow-lg shadow-gray-100/50">
             {isLoading ? (
               <div className="text-center py-12">
-                <div className="animate-spin w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+                <div className="animate-spin w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-4"></div>
                 <p className="text-gray-500">Loading jobs...</p>
               </div>
             ) : jobs.length === 0 ? (
@@ -156,8 +156,8 @@ export default function UserDashboardPage() {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-start space-x-4">
-                        <div className="w-10 h-10 bg-indigo-50 rounded-full flex items-center justify-center">
-                          <Calendar className="w-5 h-5 text-indigo-500" />
+                        <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-accent-100 rounded-full flex items-center justify-center shadow-sm">
+                          <Calendar className="w-5 h-5 text-purple-600" />
                         </div>
                         <div>
                           <h4 className="font-semibold text-gray-900">{job.title}</h4>
@@ -181,7 +181,7 @@ export default function UserDashboardPage() {
                           {formatCurrency(job.priceEstimate || 0)}
                         </p>
                         <Link href={`/user/jobs/${job.id}`}>
-                          <Button variant="ghost" size="sm" className="hover:bg-indigo-50 hover:text-indigo-600">
+                          <Button variant="ghost" size="sm" className="hover:bg-purple-50 hover:text-purple-600 transition-colors">
                             <ChevronRight className="w-4 h-4" />
                           </Button>
                         </Link>

@@ -74,10 +74,10 @@ export function Header() {
           )}
 
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
-            <div className={`w-8 h-8 ${isWorkerPath ? 'bg-secondary-600' : 'bg-primary-600'} rounded-lg flex items-center justify-center`}>
+            <div className={`w-8 h-8 ${isWorkerPath ? 'bg-purple-600' : 'bg-purple-600'} rounded-lg flex items-center justify-center`}>
               <Shield className="w-5 h-5 text-white" />
             </div>
-            <span className={`text-xl font-bold bg-gradient-to-r ${isWorkerPath ? 'from-secondary-600 to-secondary-800' : 'from-primary-600 to-primary-800'} bg-clip-text text-transparent hidden sm:block`}>
+            <span className={`text-xl font-bold bg-gradient-to-r ${isWorkerPath ? 'from-purple-600 to-purple-800' : 'from-purple-600 to-purple-800'} bg-clip-text text-transparent hidden sm:block`}>
               {isWorkerPath ? 'HelprX Worker' : 'HelprX'}
             </span>
           </div>
@@ -91,7 +91,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive
-                    ? (isWorkerPath ? 'bg-secondary-50 text-secondary-700' : 'bg-primary-50 text-primary-700')
+                    ? (isWorkerPath ? 'bg-purple-50 text-purple-700' : 'bg-purple-50 text-purple-700')
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                     }`}
                 >
@@ -108,10 +108,10 @@ export function Header() {
           {user && pathname !== '/worker/onboarding' && !isPendingWorker ? (
             <>
               <Link href="/user/profile" className="hidden sm:flex items-center gap-2 hover:bg-gray-50 px-2 py-1 rounded-full transition-colors group">
-                <span className={`text-sm font-medium text-gray-700 ${isWorkerPath ? 'group-hover:text-secondary-700' : 'group-hover:text-primary-700'} transition-colors`}>
+                <span className={`text-sm font-medium text-gray-700 ${isWorkerPath ? 'group-hover:text-purple-700' : 'group-hover:text-purple-700'} transition-colors`}>
                   {user.name?.split(' ')[0] || (isWorkerPath ? 'Worker' : 'User')}
                 </span>
-                <div className={`w-8 h-8 ${isWorkerPath ? 'bg-secondary-100 text-secondary-600 border-secondary-200 group-hover:bg-secondary-200' : 'bg-primary-100 text-primary-600 border-primary-200 group-hover:bg-primary-200'} rounded-full flex items-center justify-center font-bold border transition-colors overflow-hidden`}>
+                <div className={`w-8 h-8 ${isWorkerPath ? 'bg-purple-100 text-purple-600 border-purple-200 group-hover:bg-purple-200' : 'bg-purple-100 text-purple-600 border-purple-200 group-hover:bg-purple-200'} rounded-full flex items-center justify-center font-bold border transition-colors overflow-hidden`}>
                   {user.profileImage || (isWorkerPath && workerProfile?.data?.profileImage) ? (
                     <img
                       src={user.profileImage || workerProfile?.data?.profileImage}
@@ -134,7 +134,7 @@ export function Header() {
               </Button>
 
               <Link href={isWorkerPath ? "/worker/profile" : "/user/profile"} className="md:hidden">
-                <div className={`w-8 h-8 ${isWorkerPath ? 'bg-secondary-100 text-secondary-600 border-secondary-200' : 'bg-primary-100 text-primary-600 border-primary-200'} rounded-full flex items-center justify-center font-bold border overflow-hidden`}>
+                <div className={`w-8 h-8 ${isWorkerPath ? 'bg-purple-100 text-purple-600 border-purple-200' : 'bg-purple-100 text-purple-600 border-purple-200'} rounded-full flex items-center justify-center font-bold border overflow-hidden`}>
                   {user.profileImage || (isWorkerPath && workerProfile?.data?.profileImage) ? (
                     <img
                       src={user.profileImage || workerProfile?.data?.profileImage}

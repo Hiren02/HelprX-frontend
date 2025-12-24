@@ -69,7 +69,7 @@ export default function FAQPage() {
                     return (
                       <Card
                         key={i}
-                        className={`cursor-pointer transition-all duration-200 ${isOpen ? 'ring-2 ring-primary-500' : 'hover:shadow-md'}`}
+                        className={`cursor-pointer transition-all duration-200 ${isOpen ? 'ring-2 ring-purple-500' : 'hover:shadow-md'}`}
                         onClick={() => setOpenIndex(isOpen ? null : currentIndex)}
                       >
                         <div className="flex justify-between items-start gap-4">

@@ -9,8 +9,8 @@ export default function NotFound() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 relative overflow-hidden">
         {/* Decorative background elements */}
-        <div className="absolute top-0 -left-20 w-80 h-80 bg-primary-100 rounded-full blur-3xl opacity-60" />
-        <div className="absolute bottom-0 -right-20 w-80 h-80 bg-secondary-100 rounded-full blur-3xl opacity-60" />
+        <div className="absolute top-0 -left-20 w-80 h-80 bg-purple-100 rounded-full blur-3xl opacity-60" />
+        <div className="absolute bottom-0 -right-20 w-80 h-80 bg-purple-100 rounded-full blur-3xl opacity-60" />
 
       <div className="max-w-2xl w-full text-center relative z-10">
         <motion.div
@@ -34,7 +34,7 @@ export default function NotFound() {
                 className="absolute inset-0 flex items-center justify-center"
              >
                 <div className="bg-white p-6 rounded-3xl shadow-2xl border border-gray-100 flex flex-col items-center">
-                    <Search className="w-16 h-16 text-primary-500 mb-2" />
+                    <Search className="w-16 h-16 text-purple-500 mb-2" />
                     <div className="flex gap-1">
                         <span className="w-2 h-2 bg-gray-200 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
                         <span className="w-2 h-2 bg-gray-200 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />

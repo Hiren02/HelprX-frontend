@@ -22,7 +22,7 @@ export default function FeaturesPage() {
                 {/* For Users */}
                 <section className="py-20 container mx-auto px-4">
                     <div className="text-center mb-16">
-                        <span className="inline-block py-1 px-3 rounded-full bg-primary-100 text-primary-700 font-semibold text-sm mb-4">
+                        <span className="inline-block py-1 px-3 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm mb-4">
                             FOR CUSTOMERS
                         </span>
                         <h2 className="text-3xl font-bold text-gray-900">Simplifying Home Maintenance</h2>
@@ -31,8 +31,8 @@ export default function FeaturesPage() {
                     <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
                         <div className="order-2 md:order-1 space-y-8">
                             <div className="flex gap-4">
-                                <div className="mt-1 bg-primary-100 p-2 rounded-lg h-fit">
-                                    <Search className="w-6 h-6 text-primary-600" />
+                                <div className="mt-1 bg-purple-100 p-2 rounded-lg h-fit">
+                                    <Search className="w-6 h-6 text-purple-600" />
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold mb-2">Smart Matching</h3>
@@ -40,8 +40,8 @@ export default function FeaturesPage() {
                                 </div>
                             </div>
                             <div className="flex gap-4">
-                                <div className="mt-1 bg-primary-100 p-2 rounded-lg h-fit">
-                                    <ShieldCheck className="w-6 h-6 text-primary-600" />
+                                <div className="mt-1 bg-purple-100 p-2 rounded-lg h-fit">
+                                    <ShieldCheck className="w-6 h-6 text-purple-600" />
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold mb-2">Verified Professionals</h3>
@@ -49,8 +49,8 @@ export default function FeaturesPage() {
                                 </div>
                             </div>
                             <div className="flex gap-4">
-                                <div className="mt-1 bg-primary-100 p-2 rounded-lg h-fit">
-                                    <DollarSign className="w-6 h-6 text-primary-600" />
+                                <div className="mt-1 bg-purple-100 p-2 rounded-lg h-fit">
+                                    <DollarSign className="w-6 h-6 text-purple-600" />
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold mb-2">Transparent Pricing</h3>
@@ -68,7 +68,7 @@ export default function FeaturesPage() {
                 <section className="py-20 bg-gray-50">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-16">
-                            <span className="inline-block py-1 px-3 rounded-full bg-secondary-100 text-secondary-700 font-semibold text-sm mb-4">
+                            <span className="inline-block py-1 px-3 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm mb-4">
                                 FOR PROFESSIONALS
                             </span>
                             <h2 className="text-3xl font-bold text-gray-900">Tools to Grow Your Business</h2>
@@ -80,8 +80,8 @@ export default function FeaturesPage() {
                             </div>
                             <div className="space-y-8">
                                 <div className="flex gap-4">
-                                    <div className="mt-1 bg-secondary-100 p-2 rounded-lg h-fit">
-                                        <Calendar className="w-6 h-6 text-secondary-600" />
+                                    <div className="mt-1 bg-purple-100 p-2 rounded-lg h-fit">
+                                        <Calendar className="w-6 h-6 text-purple-600" />
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold mb-2">Flexible Schedule</h3>
@@ -89,8 +89,8 @@ export default function FeaturesPage() {
                                     </div>
                                 </div>
                                 <div className="flex gap-4">
-                                    <div className="mt-1 bg-secondary-100 p-2 rounded-lg h-fit">
-                                        <TrendingUp className="w-6 h-6 text-secondary-600" />
+                                    <div className="mt-1 bg-purple-100 p-2 rounded-lg h-fit">
+                                        <TrendingUp className="w-6 h-6 text-purple-600" />
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold mb-2">Earnings Dashboard</h3>
@@ -98,8 +98,8 @@ export default function FeaturesPage() {
                                     </div>
                                 </div>
                                 <div className="flex gap-4">
-                                    <div className="mt-1 bg-secondary-100 p-2 rounded-lg h-fit">
-                                        <Bell className="w-6 h-6 text-secondary-600" />
+                                    <div className="mt-1 bg-purple-100 p-2 rounded-lg h-fit">
+                                        <Bell className="w-6 h-6 text-purple-600" />
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold mb-2">Instant Job Alerts</h3>

@@ -49,20 +49,20 @@ export default function PaymentPage() {
             <div className="space-y-3">
               <div 
                 className={`p-4 border rounded-lg cursor-pointer flex items-center justify-between transition-colors ${
-                  paymentMethod === 'card' ? 'border-blue-500 bg-blue-50' : 'hover:bg-gray-50'
+                  paymentMethod === 'card' ? 'border-purple-500 bg-purple-50' : 'hover:bg-gray-50'
                 }`}
                 onClick={() => setPaymentMethod('card')}
               >
                 <div className="flex items-center">
-                  <CreditCard className="w-5 h-5 mr-3 text-blue-600" />
+                  <CreditCard className="w-5 h-5 mr-3 text-purple-600" />
                   <span className="font-medium">Credit/Debit Card</span>
                 </div>
-                {paymentMethod === 'card' && <CheckCircle className="w-5 h-5 text-blue-500" />}
+                {paymentMethod === 'card' && <CheckCircle className="w-5 h-5 text-purple-500" />}
               </div>
 
               <div 
                 className={`p-4 border rounded-lg cursor-pointer flex items-center justify-between transition-colors ${
-                  paymentMethod === 'upi' ? 'border-blue-500 bg-blue-50' : 'hover:bg-gray-50'
+                  paymentMethod === 'upi' ? 'border-purple-500 bg-purple-50' : 'hover:bg-gray-50'
                 }`}
                 onClick={() => setPaymentMethod('upi')}
               >
@@ -70,12 +70,12 @@ export default function PaymentPage() {
                   <Smartphone className="w-5 h-5 mr-3 text-green-600" />
                   <span className="font-medium">UPI / BHIM</span>
                 </div>
-                {paymentMethod === 'upi' && <CheckCircle className="w-5 h-5 text-blue-500" />}
+                {paymentMethod === 'upi' && <CheckCircle className="w-5 h-5 text-purple-500" />}
               </div>
 
               <div 
                 className={`p-4 border rounded-lg cursor-pointer flex items-center justify-between transition-colors ${
-                  paymentMethod === 'wallet' ? 'border-blue-500 bg-blue-50' : 'hover:bg-gray-50'
+                  paymentMethod === 'wallet' ? 'border-purple-500 bg-purple-50' : 'hover:bg-gray-50'
                 }`}
                 onClick={() => setPaymentMethod('wallet')}
               >
@@ -83,7 +83,7 @@ export default function PaymentPage() {
                   <Wallet className="w-5 h-5 mr-3 text-purple-600" />
                   <span className="font-medium">HelprX Wallet</span>
                 </div>
-                {paymentMethod === 'wallet' && <CheckCircle className="w-5 h-5 text-blue-500" />}
+                {paymentMethod === 'wallet' && <CheckCircle className="w-5 h-5 text-purple-500" />}
               </div>
             </div>
           </Card>
@@ -115,7 +115,7 @@ export default function PaymentPage() {
               </div>
               <div className="border-t pt-3 mt-3 flex justify-between font-bold text-lg">
                 <span>Total Amount</span>
-                <span className="text-blue-600">{formatCurrency(invoice.total)}</span>
+                <span className="text-purple-600">{formatCurrency(invoice.total)}</span>
               </div>
             </div>
 

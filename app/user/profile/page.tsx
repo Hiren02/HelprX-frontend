@@ -84,16 +84,16 @@ export default function ProfilePage() {
                                     onClick={() => setActiveTab(tab.id as 'profile' | 'addresses' | 'settings')}
                                     className={`w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
                                         isActive 
-                                            ? 'bg-primary-50 text-primary-700 shadow-sm' 
+                                            ? 'bg-purple-50 text-purple-700 shadow-sm' 
                                             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                     }`}
                                 >
-                                    <Icon className={`w-5 h-5 ${isActive ? 'text-primary-600' : 'text-gray-400'}`} />
+                                    <Icon className={`w-5 h-5 ${isActive ? 'text-purple-600' : 'text-gray-400'}`} />
                                     <span>{tab.label}</span>
                                     {isActive && (
                                         <motion.div 
                                             layoutId="activeTabIndicator"
-                                            className="ml-auto w-1.5 h-1.5 rounded-full bg-primary-500"
+                                            className="ml-auto w-1.5 h-1.5 rounded-full bg-purple-500"
                                         />
                                     )}
                                 </button>
@@ -103,9 +103,9 @@ export default function ProfilePage() {
                 </Card>
 
                 {/* Account Summary */}
-                <Card className="mt-4 p-4 border-gray-100 bg-gradient-to-br from-indigo-50 to-white">
+                <Card className="mt-4 p-4 border-gray-100 bg-gradient-to-br from-purple-50 to-white">
                     <div className="text-center">
-                        <p className="text-xs text-indigo-500 font-semibold uppercase tracking-wider mb-1">Account Status</p>
+                        <p className="text-xs text-purple-500 font-semibold uppercase tracking-wider mb-1">Account Status</p>
                         <p className="text-sm font-medium text-gray-900">Active User</p>
                         <div className="mt-3 text-xs text-gray-500">Member since {new Date().getFullYear()}</div>
                     </div>
@@ -139,7 +139,7 @@ export default function ProfilePage() {
                                         <Button variant="ghost" onClick={() => setIsEditing(false)}>
                                             Cancel
                                         </Button>
-                                        <Button onClick={handleSaveProfile} className="bg-primary-600 hover:bg-primary-700 text-white">
+                                        <Button onClick={handleSaveProfile} className="bg-purple-600 hover:bg-purple-700 text-white">
                                             Save Changes
                                         </Button>
                                     </div>
@@ -184,7 +184,7 @@ export default function ProfilePage() {
                                         <h2 className="text-xl font-bold text-gray-900">Saved Addresses</h2>
                                         <p className="text-sm text-gray-500 mt-1">Manage delivery locations and service addresses</p>
                                     </div>
-                                    <Button onClick={() => setIsAddAddressOpen(true)} className="shadow-lg shadow-primary-500/20">
+                                    <Button onClick={() => setIsAddAddressOpen(true)} className="shadow-lg shadow-purple-500/20">
                                     <Plus className="w-4 h-4 mr-2" />
                                     Add New
                                     </Button>
@@ -192,7 +192,7 @@ export default function ProfilePage() {
                                 
                                 {loadingAddresses ? (
                                     <div className="flex justify-center py-12">
-                                        <div className="animate-spin w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full"></div>
+                                        <div className="animate-spin w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full"></div>
                                     </div>
                                 ) : addresses.length === 0 ? (
                                     <div className="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-200">
@@ -210,10 +210,10 @@ export default function ProfilePage() {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             key={address.id} 
-                                            className="group border border-gray-200 rounded-xl p-4 flex justify-between items-start hover:border-primary-200 hover:shadow-md transition-all duration-200 bg-white"
+                                            className="group border border-gray-200 rounded-xl p-4 flex justify-between items-start hover:border-purple-200 hover:shadow-md transition-all duration-200 bg-white"
                                         >
                                             <div className="flex gap-4">
-                                                <div className="mt-1 w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-100 transition-colors">
+                                                <div className="mt-1 w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 group-hover:bg-purple-100 transition-colors">
                                                     {getLabelIcon(address.label)}
                                                 </div>
                                                 <div>
