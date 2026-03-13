@@ -10,7 +10,7 @@ interface AuthState {
 
 const initialState: AuthState = {
     user: getStoredUser(),
-    isAuthenticated: !!getStoredUser(),
+    isAuthenticated: !!getStoredUser() && !!localStorage.getItem('accessToken'),
     isLoading: false,
 };
 

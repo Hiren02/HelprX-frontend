@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAppSelector } from '@/store/hooks';
 import { RootState } from '@/store';
-import NextTopLoader from 'nextjs-toploader';
+
 import { WorkerHeader } from '@/components/layout/WorkerHeader';
 import { Header } from '@/components/layout/Header';
 import { useWorkerProfile } from '@/lib/hooks/useWorker';
@@ -41,7 +41,7 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <NextTopLoader color="#7c3aed" showSpinner={false} />
+
       {pathname === '/worker/onboarding' ? <Header /> : (!isPublicPath && <WorkerHeader />)}
       <main className="flex-grow">
         {children}

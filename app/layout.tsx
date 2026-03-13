@@ -4,6 +4,8 @@ import './globals.css';
 import { ReduxProvider } from '@/components/providers/ReduxProvider';
 import { ReactQueryProvider } from '@/components/providers/ReactQueryProvider';
 import { ToastProvider } from '@/components/providers/ToastProvider';
+import NextTopLoader from 'nextjs-toploader';
+import { NotificationProvider } from '@/components/providers/NotificationProvider';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -22,7 +24,14 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <ReduxProvider>
           <ReactQueryProvider>
-            {children}
+            <NextTopLoader
+              color="#7c3aed"
+              showSpinner={false}
+              shadow="0 0 10px #7c3aed,0 0 5px #7c3aed"
+            />
+            <NotificationProvider>
+              {children}
+            </NotificationProvider>
             <ToastProvider />
           </ReactQueryProvider>
         </ReduxProvider>

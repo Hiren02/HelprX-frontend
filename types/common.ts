@@ -20,11 +20,15 @@ export interface Notification {
     id: string;
     userId: string;
     title: string;
-    message: string;
-    type: 'info' | 'success' | 'warning' | 'error';
+    message?: string; // Legacy
+    body?: string;    // Backend match
+    type: string;     // Flexible type
+    channel?: string;
     isRead: boolean;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, any>; // Legacy
+    data?: Record<string, any>;    // Backend match
     createdAt: string;
+    sentAt?: string;
 }
 
 export interface WalletTransaction {

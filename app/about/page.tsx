@@ -212,6 +212,123 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Team Section */}
+        <section className="py-24 bg-white">
+          <div className="container mx-auto px-4">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">Meet Our Leadership</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                A passionate team dedicated to transforming the home services industry.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {[
+                {
+                  name: 'Alex Thompson',
+                  role: 'CEO & Co-Founder',
+                  image: '👨‍💼',
+                  bio: 'Former product lead at a major tech company, passionate about local economies.'
+                },
+                {
+                  name: 'Maria Garcia',
+                  role: 'CTO & Co-Founder',
+                  image: '👩‍💻',
+                  bio: '15+ years in engineering, building scalable platforms that empower communities.'
+                },
+                {
+                  name: 'David Chen',
+                  role: 'Head of Operations',
+                  image: '👨‍💼',
+                  bio: 'Expert in logistics and marketplace operations, ensuring seamless experiences.'
+                }
+              ].map((member, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-gradient-to-br from-gray-50 to-white p-8 rounded-2xl border border-gray-200 hover:shadow-lg transition-shadow"
+                >
+                  <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center text-4xl mb-6 mx-auto">
+                    {member.image}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 text-center mb-2">{member.name}</h3>
+                  <p className="text-primary-600 font-medium text-center mb-4">{member.role}</p>
+                  <p className="text-gray-600 text-center text-sm leading-relaxed">{member.bio}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Milestones Section */}
+        <section className="py-24 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Journey</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Key milestones that shaped HelprX into what it is today.
+              </p>
+            </motion.div>
+
+            <div className="max-w-4xl mx-auto">
+              {[
+                {
+                  year: '2024',
+                  title: 'HelprX Founded',
+                  description: 'Started with a vision to revolutionize local home services.'
+                },
+                {
+                  year: '2024 Q2',
+                  title: 'Platform Launch',
+                  description: 'Officially launched in 5 major cities with 100+ verified professionals.'
+                },
+                {
+                  year: '2024 Q3',
+                  title: '10,000 Users',
+                  description: 'Reached 10,000 active users and completed 5,000+ successful jobs.'
+                },
+                {
+                  year: '2024 Q4',
+                  title: 'Expansion',
+                  description: 'Expanded to 15 cities with 500+ professionals on the platform.'
+                }
+              ].map((milestone, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="flex gap-8 mb-12 last:mb-0"
+                >
+                  <div className="flex-shrink-0">
+                    <div className="w-24 h-24 bg-primary-600 rounded-2xl flex items-center justify-center text-white font-bold shadow-lg">
+                      {milestone.year}
+                    </div>
+                  </div>
+                  <div className="flex-grow pt-2">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{milestone.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{milestone.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="py-24 relative overflow-hidden bg-primary-600">
           <div className="absolute top-0 left-0 w-full h-full">

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
-import { Search, Calculator, CheckSquare, Star, UserPlus, ClipboardList, Wallet, BadgeCheck, ArrowRight, MousePointerClick, ShieldCheck } from 'lucide-react';
+import { Search, Calculator, CheckSquare, Star, UserPlus, ClipboardList, Wallet, BadgeCheck, ArrowRight, MousePointerClick, ShieldCheck, HelpCircle, ChevronDown, Sparkles, Zap, Shield, Clock } from 'lucide-react';
 import Link from 'next/link';
 import { Header } from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -69,157 +69,249 @@ export default function HowItWorksPage() {
     }
   ];
 
+  const faqs = [
+    {
+      q: "How long does it take to get a match?",
+      a: "Our smart matching system typically connects you with available professionals in your area within 60 seconds."
+    },
+    {
+      q: "Are the professionals background checked?",
+      a: "Yes, every professional on HelprX undergoes a rigorous multi-step verification process, including identity and background checks."
+    },
+    {
+      q: "How do I pay for the service?",
+      a: "Payments are handled securely through the app. We hold the funds in escrow and only release them to the professional once you confirm the job is complete."
+    },
+    {
+      q: "What if I'm not satisfied with the work?",
+      a: "We offer a Happiness Guarantee. If you're not satisfied, we'll work with you to make it right, which may include a re-service or a refund."
+    }
+  ];
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
       <main className="flex-grow">
-        {/* Hero Section */}
-        <section className="relative bg-white py-24 overflow-hidden">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-primary-50/30 rounded-l-[100px] -z-10 hidden lg:block" />
+        {/* Simplified Hero Section */}
+        <section className="relative pt-20 pb-16 lg:pt-32 lg:pb-24 overflow-hidden">
+          <div className="absolute top-0 inset-x-0 h-full bg-gradient-to-b from-primary-50/50 to-white -z-10" />
+          <div className="container mx-auto px-4 text-center">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeInUp}
+              className="max-w-3xl mx-auto"
+            >
+              <motion.div variants={fadeInUp} className="inline-flex items-center px-4 py-2 rounded-full bg-primary-100 text-primary-700 font-medium text-sm mb-6 border border-primary-200">
+                <Sparkles className="w-4 h-4 mr-2" />
+                The Future of Home Services
+              </motion.div>
+              <h1 className="text-5xl lg:text-7xl font-extrabold text-gray-900 mb-6 leading-tight">
+                How <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">HelprX</span> Works
+              </h1>
+              <p className="text-xl text-gray-600 mb-10 leading-relaxed">
+                We've simplified the entire process of finding, booking, and paying for home services.
+                Whether you're a homeowner or a pro, we've got you covered.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Button size="lg" className="rounded-2xl h-16 px-10 text-lg shadow-xl shadow-primary-500/20">
+                  Get Started Now
+                </Button>
+                <Button variant="outline" size="lg" className="rounded-2xl h-16 px-10 text-lg border-2">
+                  Watch Demo
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* For Customers - Dynamic Step Cards */}
+        <section className="py-24 bg-white relative">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col lg:flex-row items-center gap-16">
-              <motion.div
-                className="lg:w-1/2 text-center lg:text-left"
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-              >
-                <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary-100 text-primary-700 font-medium text-sm mb-6">
-                  Simple. Transparent. Reliable.
-                </div>
-                <h1 className="text-5xl lg:text-7xl font-bold mb-6 text-gray-900 leading-tight">
-                  How <span className="text-primary-600">HelprX</span> <br />
-                  Works for You
-                </h1>
-                <p className="text-xl text-gray-600 mb-8 max-w-xl">
-                  We bridge the gap between skilled professionals and homeowners. Discover how easy it is to get things done or grow your business.
-                </p>
-                <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                  <Button size="lg" className="rounded-xl h-14 px-8 shadow-lg shadow-primary-500/20">
-                    Get Started
-                  </Button>
-                  <Button variant="outline" size="lg" className="rounded-xl h-14 px-8 border-2">
-                    Learn More
-                  </Button>
-                </div>
-              </motion.div>
-              <motion.div
-                className="lg:w-1/2 relative"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-              >
-                <div className="bg-gradient-to-tr from-primary-100 to-blue-50 rounded-3xl p-8 aspect-square flex items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 bg-white/40 backdrop-blur-3xl m-8 rounded-2xl border border-white/50 shadow-2xl flex flex-col items-center justify-center p-8 text-center">
-                    <div className="w-20 h-20 bg-primary-600 rounded-2xl flex items-center justify-center text-white mb-6 shadow-xl rotate-12">
-                      <Calculator className="w-10 h-10" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Smart Matching</h3>
-                    <p className="text-gray-500">Our algorithm finds the perfect pro in seconds based on your needs.</p>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">Journey for Customers</h2>
+              <p className="text-gray-500 text-lg">Four simple steps to a better home.</p>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+              {steps.map((step, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group bg-gray-50 rounded-[32px] p-8 flex gap-6 hover:bg-primary-50 transition-colors duration-500 border border-transparent hover:border-primary-100"
+                >
+                  <div className="flex-shrink-0 w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
+                    <step.icon className="w-8 h-8 text-primary-600" />
                   </div>
-                  {/* Decorative floating elements */}
-                  <motion.div
-                    animate={{ y: [0, -20, 0] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                    className="absolute top-10 right-10 w-16 h-16 bg-white rounded-xl shadow-lg flex items-center justify-center text-secondary-500"
-                  >
-                    <Star className="w-8 h-8 fill-current" />
-                  </motion.div>
-                  <motion.div
-                    animate={{ y: [0, 20, 0] }}
-                    transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-                    className="absolute bottom-10 left-10 w-16 h-16 bg-white rounded-xl shadow-lg flex items-center justify-center text-primary-500"
-                  >
-                    <CheckSquare className="w-8 h-8" />
-                  </motion.div>
-                </div>
-              </motion.div>
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-xs font-bold text-primary-500 uppercase tracking-widest">Step {i + 1}</span>
+                      <div className="h-px bg-primary-200 flex-grow" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-3">{step.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{step.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* For Customers Section */}
-        <section className="py-24 bg-gray-50">
+        {/* Features Split Section */}
+        <section className="py-24 bg-gray-50 overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-20">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">For Customers</h2>
-              <div className="w-24 h-1.5 bg-primary-600 mx-auto rounded-full" />
-              <p className="text-gray-600 mt-6 text-lg max-w-2xl mx-auto">
-                Getting help is just a few clicks away. Experience the most seamless home service journey.
-              </p>
-            </div>
-
-            <motion.div
-              className="grid md:grid-cols-4 gap-12 relative"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              {steps.map((step, i) => (
-                <motion.div key={i} className="relative z-10 text-center" variants={fadeInUp}>
-                  <div className="relative mb-8 group">
-                    <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm group-hover:shadow-xl group-hover:-translate-y-2 transition-all duration-300 border border-gray-100">
-                      <step.icon className="w-10 h-10 text-primary-600" />
+            <div className="grid lg:grid-cols-2 gap-20 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-4xl font-bold text-gray-900 mb-8 leading-tight">
+                  Why hundreds of neighbors <br />
+                  trust <span className="text-primary-600">HelprX</span> every day.
+                </h2>
+                <div className="space-y-8">
+                  {[
+                    { icon: Zap, title: 'Speed of Service', desc: 'No more waiting for callbacks. Get service in hours, not days.' },
+                    { icon: Shield, title: 'Safe & Secure', desc: 'Every transaction is encrypted and every pro is fully vetted.' },
+                    { icon: Clock, title: 'Reliability', desc: 'Real-time tracking and constant communication for total peace of mind.' }
+                  ].map((feat, i) => (
+                    <div key={i} className="flex gap-5">
+                      <div className="flex-shrink-0 w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                        <feat.icon className="w-6 h-6 text-primary-600" />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-gray-900 mb-1">{feat.title}</h4>
+                        <p className="text-gray-600">{feat.desc}</p>
+                      </div>
                     </div>
-                    {i < steps.length - 1 && (
-                      <div className="hidden md:block absolute top-10 left-[calc(50%+4rem)] w-[calc(100%-8rem)] border-t-2 border-dashed border-gray-200" />
-                    )}
-                    <div className="absolute -top-3 -right-3 w-8 h-8 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold shadow-lg border-4 border-white">
-                      {i + 1}
+                  ))}
+                </div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="relative"
+              >
+                <div className="bg-primary-600 rounded-[40px] p-8 aspect-square relative overflow-hidden shadow-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
+                  <div className="relative h-full flex flex-col justify-center text-white">
+                    <p className="text-6xl font-black mb-4">98%</p>
+                    <p className="text-2xl font-bold mb-6">Customer Satisfaction</p>
+                    <p className="text-primary-100 italic">"The easiest home service experience I've ever had. From booking to payment, it was absolutely flawless."</p>
+                    <div className="mt-8 flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-primary-400" />
+                      <div>
+                        <p className="font-bold">Sarah Jenkins</p>
+                        <p className="text-sm text-primary-200">New York User</p>
+                      </div>
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold mb-4 text-gray-900">{step.title}</h3>
-                  <p className="text-gray-500 leading-relaxed px-4">{step.desc}</p>
-                </motion.div>
-              ))}
-            </motion.div>
+                </div>
+                {/* Floating elements */}
+                <div className="absolute -top-10 -right-10 w-24 h-24 bg-secondary-400 rounded-3xl blur-2xl opacity-40 animate-pulse" />
+                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-primary-400 rounded-full blur-3xl opacity-30 animate-pulse" />
+              </motion.div>
+            </div>
           </div>
         </section>
 
         {/* For Professionals Section */}
-        <section className="py-24 bg-gray-900 text-white overflow-hidden relative">
-          <div className="absolute inset-0 bg-primary-600/5 -z-0" />
+        <section className="py-32 bg-gray-900 text-white overflow-hidden relative">
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
           <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-20">
-              <h2 className="text-4xl font-bold mb-4">For Professionals</h2>
-              <div className="w-24 h-1.5 bg-secondary-500 mx-auto rounded-full" />
-              <p className="text-gray-400 mt-6 text-lg max-w-2xl mx-auto">
-                Turn your skills into earnings. We provide the tools and clients you need to succeed.
-              </p>
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-5xl font-bold mb-6">Empowering Pros</h2>
+                <p className="text-xl text-gray-400 mb-12">
+                  Build your business on your own terms. We handle the marketing, payments, and support so you can focus on quality work.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-8">
+                  {workerSteps.map((step, i) => (
+                    <div key={i} className="flex gap-4">
+                      <div className="flex-shrink-0 w-12 h-12 bg-primary-600/20 rounded-xl flex items-center justify-center text-primary-400">
+                        <step.icon className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-lg mb-1">{step.title}</h4>
+                        <p className="text-sm text-gray-400">{step.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-12">
+                  <Link href="/worker/register">
+                    <Button variant="secondary" size="lg" className="rounded-2xl h-16 px-10 shadow-2xl shadow-secondary-500/10 group font-bold">
+                      Become a Partner
+                      <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                </div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="bg-gray-800 rounded-[40px] p-10 border border-gray-700 shadow-3xl"
+              >
+                <div className="space-y-6 text-center">
+                  <p className="text-primary-400 font-bold tracking-widest uppercase text-sm">The Pro Dashboard</p>
+                  <h3 className="text-3xl font-bold">Everything you need <br /> in one place.</h3>
+                  <div className="pt-8">
+                    <div className="aspect-[4/3] bg-gray-900 rounded-3xl border border-gray-700 p-6 flex flex-col justify-between">
+                      <div className="flex justify-between items-center">
+                        <div className="h-6 w-32 bg-gray-800 rounded" />
+                        <div className="h-10 w-10 bg-gray-800 rounded-full" />
+                      </div>
+                      <div className="space-y-4">
+                        <div className="h-8 w-full bg-gradient-to-r from-primary-600/20 to-transparent rounded" />
+                        <div className="h-8 w-full bg-gray-800 rounded" />
+                        <div className="h-8 w-2/3 bg-gray-800 rounded" />
+                      </div>
+                      <div className="h-12 w-full bg-primary-600 rounded-xl" />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="py-24 bg-white">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">Common Questions</h2>
+              <p className="text-gray-500 text-lg">Everything you need to know about the process.</p>
             </div>
 
-            <motion.div
-              className="grid md:grid-cols-4 gap-12"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              {workerSteps.map((step, i) => (
-                <motion.div key={i} className="text-center" variants={fadeInUp}>
-                  <div className="w-20 h-20 bg-gray-800 rounded-3xl flex items-center justify-center mx-auto mb-8 border border-gray-700 hover:border-secondary-500/50 transition-colors group">
-                    <step.icon className="w-10 h-10 text-secondary-400 group-hover:scale-110 transition-transform" />
+            <div className="space-y-4">
+              {faqs.map((faq, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="border border-gray-100 rounded-2xl overflow-hidden hover:border-primary-100 transition-colors"
+                >
+                  <button className="w-full text-left p-6 flex justify-between items-center group">
+                    <span className="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition-colors">{faq.q}</span>
+                    <ChevronDown className="w-5 h-5 text-gray-400 group-hover:text-primary-600" />
+                  </button>
+                  <div className="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4">
+                    {faq.a}
                   </div>
-                  <h3 className="text-xl font-bold mb-4">{step.title}</h3>
-                  <p className="text-gray-400 leading-relaxed px-4">{step.desc}</p>
                 </motion.div>
               ))}
-            </motion.div>
-
-            <motion.div
-              className="text-center mt-16"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <Link href="/worker/register">
-                <Button variant="secondary" size="lg" className="rounded-xl h-14 px-10 shadow-xl shadow-secondary-500/10 group">
-                  Start Earning Today
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-            </motion.div>
+            </div>
           </div>
         </section>
       </main>

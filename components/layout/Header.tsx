@@ -10,6 +10,7 @@ import { RootState } from '@/store';
 import { clearUser } from '@/store/authSlice';
 import { useWorkerProfile } from '@/lib/hooks/useWorker';
 import toast from 'react-hot-toast';
+import { NotificationDropdown } from './NotificationDropdown';
 
 export function Header() {
   const router = useRouter();
@@ -104,9 +105,10 @@ export function Header() {
 
         {/* Right Side Actions */}
         {/* Right Side Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           {user && pathname !== '/worker/onboarding' && !isPendingWorker ? (
             <>
+              <NotificationDropdown />
               <Link href="/user/profile" className="hidden sm:flex items-center gap-2 hover:bg-gray-50 px-2 py-1 rounded-full transition-colors group">
                 <span className={`text-sm font-medium text-gray-700 ${isWorkerPath ? 'group-hover:text-secondary-700' : 'group-hover:text-primary-700'} transition-colors`}>
                   {user.name?.split(' ')[0] || (isWorkerPath ? 'Worker' : 'User')}
